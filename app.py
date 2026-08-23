@@ -230,7 +230,7 @@ if not st.session_state["language_selected"]:
 selected_language = st.session_state.get("selected_language", "English")
 UI = LANGUAGES[selected_language]
 
-# Language can be changed later from the sidebar.
+# Language can be changed later from the sidebar
 with st.sidebar:
     st.markdown("### 🌐 Language")
     new_language = st.selectbox(
@@ -242,9 +242,7 @@ with st.sidebar:
         st.session_state["selected_language"] = new_language
         st.rerun()
 
-# ---------------------------------------------------------
-# HERO BANNER - FIXED TITLE INCLUSION USING F-STRING
-# ---------------------------------------------------------
+# HERO BANNER
 st.markdown(f"""
 <div class="hero-container">
     <div class="hero-content">
@@ -261,23 +259,10 @@ if not api_key:
         st.subheader("🔑 Security Key")
         api_key = st.text_input("Enter Gemini API Key", type="password")
 
-# Heuristic Engine
-def run_heuristic_check(text):
-    flags = []
-    t = text.lower()
-    if re.search(r'\b(registration fee|security deposit|processing fee|laptop fee|pay for kit)\b', t):
-        flags.append("🚨 Payment Request: Demands upfront cash before onboarding.")
-    if re.search(r'\b(telegram|whatsapp only|contact hr via whatsapp)\b', t):
-        flags.append("📱 Unverified Channel: Avoids official corporate communication.")
-    if re.search(r'\b(earn \$?\d+00|50000 per month for 2 hours)\b', t):
-        flags.append("💸 Irrealistic Salary: Compensation is suspiciously inflated.")
-    return flags
-
 # =========================================================
-# EXTRA FEATURES
+# EXTRA FEATURES & HEURISTICS
 # =========================================================
 
-# ---------- Session History ----------
 if "scan_history" not in st.session_state:
     st.session_state["scan_history"] = []
 
@@ -291,29 +276,31 @@ def save_scan(text, score, level, indicators, recommendation):
     })
     st.session_state["scan_history"] = st.session_state["scan_history"][:20]
 
-# ---------- Stronger Local Heuristic Engine ----------
+# Advanced Local Heuristic Engine
 def advanced_heuristic_check(text):
     t = text.lower()
     flags = []
     score = 0
 
     rules = [
-        (r'\b(registration fee|security deposit|processing fee|laptop fee|pay for kit|joining fee)\b',
-         25, "💳 Payment Demand: Requests money before employment/onboarding."),
-        (r'\b(telegram|whatsapp only|contact hr via whatsapp|signal)\b',
-         15, "📱 Unverified Communication: Uses informal-only recruitment channels."),
-        (r'\b(no interview|without interview|selected immediately|instant selection)\b',
-         20, "⚠️ No Screening: Claims selection without a normal hiring process."),
+        (r'\b(registration fee|security deposit|processing fee|laptop fee|pay for kit|joining fee|confirm your internship seat)\b',
+         30, "💳 Payment Demand: Requests money before employment or onboarding."),
+        (r'\b(telegram|whatsapp|signal)\b',
+         15, "📱 Unverified Communication: Directing recruitment to personal messaging apps."),
+        (r'\b(no interview|without interview|selected immediately|instant selection|you have been selected)\b',
+         20, "⚠️ Immediate Selection: Claims candidate selection without proper screening."),
         (r'\b(guaranteed job|100% job|guaranteed income|easy money)\b',
          15, "🎯 Guaranteed Job Claim: Promises certainty or unusually easy income."),
-        (r'\b(otp|one time password|upi pin|cvv|card number|bank password)\b',
-         35, "🔐 Sensitive Data Request: Requests credentials or financial security information."),
+        (r'\b(aadhaar|pan card|passport|bank details|otp|cvv|upi pin)\b',
+         25, "🔐 Sensitive ID/Data Request: Asks for identity or financial credentials via unverified channels."),
         (r'\b(bit\.ly|tinyurl|t\.co|goo\.gl)\b',
-         10, "🔗 Shortened URL: Destination is hidden and should be verified."),
-        (r'\b(urgent|act now|limited time|today only|immediately)\b',
-         8, "⏰ Pressure Tactic: Creates urgency to prevent careful verification."),
+         10, "🔗 Shortened URL: Link destination is obfuscated."),
+        (r'\b(\d+\s*hours?|today|urgent|limited time|act now|immediately)\b',
+         15, "⏰ Extreme Urgency: Creates artificial pressure to bypass verification."),
         (r'\b(crypto|bitcoin|usdt|investment required)\b',
-         18, "🪙 Financial Scheme Indicator: Links employment with investment/crypto."),
+         18, "🪙 Financial Scheme Indicator: Links employment with cryptocurrency or investment."),
+        (r'@gmail\.com|@yahoo\.com|@hotmail\.com|@outlook\.com',
+         15, "📧 Public Email Domain: Official recruitment uses generic webmail instead of a company domain.")
     ]
 
     for pattern, points, message in rules:
@@ -321,30 +308,26 @@ def advanced_heuristic_check(text):
             flags.append(message)
             score += points
 
-    # Detect unusually high salary claims.
-    money_matches = re.findall(
-        r'(?:₹|rs\.?|inr|\$)\s?([\d,]+)', t, flags=re.I
-    )
+    # Lower threshold to flag high stipends (e.g. ₹30,000+ per month for work-from-home internships)
+    money_matches = re.findall(r'(?:₹|rs\.?|inr|\$)\s?([\d,]+)', t, flags=re.I)
     for amount in money_matches:
         try:
             value = int(amount.replace(",", ""))
-            if value >= 100000:
-                flags.append("💰 Salary Anomaly: Very high compensation claim should be independently verified.")
-                score += 10
+            if value >= 30000:
+                flags.append("💰 Salary Anomaly: Compensation is unusually inflated for entry-level work.")
+                score += 15
                 break
         except ValueError:
             pass
 
-    return min(score, 95), flags
+    return min(score, 100), flags
 
-# ---------- URL / Contact Extraction ----------
 def extract_links_and_contacts(text):
     urls = re.findall(r'https?://[^\s<>"\']+', text)
     emails = re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', text)
     phones = re.findall(r'(?<!\d)(?:\+91[-\s]?)?[6-9]\d{9}(?!\d)', text)
     return urls, emails, phones
 
-# ---------- Safety Checklist ----------
 def show_safety_checklist(score):
     st.markdown("### 🛡️ Recommended Safety Actions")
     actions = [
@@ -358,7 +341,7 @@ def show_safety_checklist(score):
     for action in actions:
         st.markdown(f"- {action}")
 
-# ---------- Extra Dashboard ----------
+# Extra Dashboard Tabs
 tab_dashboard, tab_history = st.tabs(["📈 Security Dashboard", "🧾 Scan History"])
 
 with tab_dashboard:
@@ -439,7 +422,6 @@ with tab_history:
         st.session_state["scan_history"] = []
         st.rerun()
 
-# ---------- Downloadable Security Report ----------
 if st.session_state.get("scan_history"):
     import csv
     import io
@@ -459,11 +441,11 @@ if st.session_state.get("scan_history"):
         mime="text/csv"
     )
 
-# App Tabs
+# Primary App Tabs
 tab_offer, tab_brand = st.tabs(["🚀 Verify Text / Offer", "🔍 Inspect Logo Authenticity"])
 
 # ---------------------------------------------------------
-# TAB 1: OFFER ANALYZER
+# TAB 1: OFFER ANALYZER (WITH FALLBACK FOR 429 ERRORS)
 # ---------------------------------------------------------
 with tab_offer:
     col_input, col_presets = st.columns([2, 1])
@@ -493,9 +475,9 @@ with tab_offer:
         elif not user_text.strip():
             st.warning("Please paste offer details first.")
         else:
-            local_flags = run_heuristic_check(user_text)
-            
             with st.spinner("Analyzing opportunity..."):
+                local_score, local_flags = advanced_heuristic_check(user_text)
+                
                 try:
                     client = genai.Client(api_key=api_key)
                     prompt = f"""
@@ -517,49 +499,57 @@ with tab_offer:
                     cleaned = response.text.strip().replace("```json", "").replace("```", "")
                     data = json.loads(cleaned)
 
-                    # Dynamic Visual Display
-                    score = data.get("risk_score", 0)
-                    level = data.get("risk_level", "Unknown")
+                except Exception as e:
+                    if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                        st.warning("⚠️ Gemini API quota limit reached. Switched to local rule-based analysis engine.")
+                        level = "High" if local_score >= 60 else "Medium" if local_score >= 30 else "Low"
+                        data = {
+                            "risk_score": local_score,
+                            "risk_level": level,
+                            "warning_indicators": local_flags,
+                            "recommendation": "Analysis compiled by offline engine due to API quota limits. Verify company credentials manually."
+                        }
+                    else:
+                        st.error(f"Analysis error: {e}")
+                        st.stop()
 
-                    st.markdown("---")
-                    st.markdown("### 📊 Threat Intelligence Report")
+                score = data.get("risk_score", 0)
+                level = data.get("risk_level", "Unknown")
 
-                    m1, m2 = st.columns([1, 2])
+                st.markdown("---")
+                st.markdown("### 📊 Threat Intelligence Report")
+
+                m1, m2 = st.columns([1, 2])
+                
+                with m1:
+                    st.markdown(f"""
+                    <div class="glass-card" style="text-align: center;">
+                        <span style="font-size: 0.9rem; color: #94a3b8;">RISK SCORE</span>
+                        <h1 style="font-size: 3.5rem; margin: 0; color: #c084fc;">{score}</h1>
+                        <span style="font-size: 0.8rem; color: #64748b;">out of 100</span>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    st.progress(score / 100)
+
+                with m2:
+                    st.markdown("<div class='glass-card'><b>Threat Level Status</b><br><br>", unsafe_allow_html=True)
+                    if level == "High":
+                        st.markdown('<span class="badge-danger">🔴 HIGH RISK THREAT DETECTED</span>', unsafe_allow_html=True)
+                    elif level == "Medium":
+                        st.markdown('<span class="badge-warning">🟡 MEDIUM RISK / EXTREME CAUTION</span>', unsafe_allow_html=True)
+                    else:
+                        st.markdown('<span class="badge-success">🟢 LOW RISK / VERIFIED PROFILE</span>', unsafe_allow_html=True)
                     
-                    with m1:
-                        st.markdown(f"""
-                        <div class="glass-card" style="text-align: center;">
-                            <span style="font-size: 0.9rem; color: #94a3b8;">RISK SCORE</span>
-                            <h1 style="font-size: 3.5rem; margin: 0; color: #c084fc;">{score}</h1>
-                            <span style="font-size: 0.8rem; color: #64748b;">out of 100</span>
-                        </div>
-                        """, unsafe_allow_html=True)
-                        st.progress(score / 100)
-
-                    with m2:
-                        st.markdown("<div class='glass-card'><b>Threat Level Status</b><br><br>", unsafe_allow_html=True)
-                        if level == "High":
-                            st.markdown('<span class="badge-danger">🔴 HIGH RISK THREAT DETECTED</span>', unsafe_allow_html=True)
-                        elif level == "Medium":
-                            st.markdown('<span class="badge-warning">🟡 MEDIUM RISK / EXTREME CAUTION</span>', unsafe_allow_html=True)
-                        else:
-                            st.markdown('<span class="badge-success">🟢 LOW RISK / VERIFIED PROFILE</span>', unsafe_allow_html=True)
-                        
-                        st.markdown(f"<br><br><b>Verdict:</b> {data.get('recommendation', '')}", unsafe_allow_html=True)
-                        st.markdown("</div>", unsafe_allow_html=True)
-
-                    # Red Flags Cards
-                    st.markdown("<div class='glass-card'><b>🚩 Identified Risk Indicators</b><br><br>", unsafe_allow_html=True)
-                    all_indicators = list(set(local_flags + data.get("warning_indicators", [])))
-                    for ind in all_indicators:
-                        st.markdown(f"- {ind}")
+                    st.markdown(f"<br><br><b>Verdict:</b> {data.get('recommendation', '')}", unsafe_allow_html=True)
                     st.markdown("</div>", unsafe_allow_html=True)
 
-                    # Record scan in session state
-                    save_scan(user_text, score, level, all_indicators, data.get('recommendation', ''))
+                st.markdown("<div class='glass-card'><b>🚩 Identified Risk Indicators</b><br><br>", unsafe_allow_html=True)
+                all_indicators = list(set(local_flags + data.get("warning_indicators", [])))
+                for ind in all_indicators:
+                    st.markdown(f"- {ind}")
+                st.markdown("</div>", unsafe_allow_html=True)
 
-                except Exception as e:
-                    st.error(f"Analysis error: {e}")
+                save_scan(user_text, score, level, all_indicators, data.get('recommendation', ''))
 
 # ---------------------------------------------------------
 # TAB 2: BRAND LOGO INSPECTION
@@ -625,4 +615,7 @@ with tab_brand:
                     st.markdown("</div>", unsafe_allow_html=True)
 
                 except Exception as e:
-                    st.error(f"Image analysis error: {e}")
+                    if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
+                        st.error("⚠️ API quota exceeded. Logo inspection requires active Gemini vision access.")
+                    else:
+                        st.error(f"Image analysis error: {e}")
