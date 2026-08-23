@@ -1,107 +1,153 @@
-import os
 import json
 import re
 import streamlit as st
 from google import genai
 from PIL import Image
 
-# 1. Page Configuration & Custom CSS
+# Page setup
 st.set_page_config(
-    page_title="ScamCheck AI - Fraud Detection Platform",
+    page_title="ScamCheck AI - Fraud Detection",
     page_icon="🛡️",
-    layout="wide"
+    layout="wide",
+    initial_sidebar_state="collapsed"
 )
 
-# Custom Styling for Professional Interface
+# ---------------------------------------------------------
+# CUSTOM CSS STYLING
+# ---------------------------------------------------------
 st.markdown("""
 <style>
-    .main-header { font-size: 2.2rem; font-weight: 700; color: #1E293B; margin-bottom: 0px; }
-    .sub-header { font-size: 1rem; color: #64748B; margin-bottom: 20px; }
-    .stButton>button { width: 100%; border-radius: 8px; font-weight: 600; }
-    .stat-card { background-color: #F8FAFC; border-radius: 10px; padding: 15px; border: 1px solid #E2E8F0; }
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+    
+    * { font-family: 'Inter', sans-serif; }
+    
+    /* Header Gradient Banner */
+    .header-box {
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #334155 100%);
+        padding: 30px;
+        border-radius: 16px;
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+    }
+    .header-title { font-size: 2.2rem; font-weight: 700; margin: 0; color: #FFFFFF; }
+    .header-subtitle { font-size: 1rem; color: #94A3B8; margin-top: 6px; }
+
+    /* Custom Cards */
+    .card {
+        background-color: #FFFFFF;
+        border-radius: 12px;
+        padding: 20px;
+        border: 1px solid #E2E8F0;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        margin-bottom: 20px;
+    }
+
+    /* Status Badges */
+    .badge-high {
+        background-color: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5;
+        padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block;
+    }
+    .badge-medium {
+        background-color: #FFFBEB; color: #D97706; border: 1px solid #FCD34D;
+        padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block;
+    }
+    .badge-low {
+        background-color: #F0FDF4; color: #16A34A; border: 1px solid #86EFAC;
+        padding: 6px 14px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; display: inline-block;
+    }
+
+    /* Custom Progress Bar Styling */
+    .stProgress > div > div > div > div {
+        border-radius: 10px;
+    }
+
+    /* Primary Action Buttons */
+    .stButton > button {
+        border-radius: 10px !important;
+        font-weight: 600 !important;
+        height: 48px !important;
+        transition: all 0.2s ease !important;
+    }
 </style>
 """, unsafe_allow_html=True)
 
-# App Header
-st.markdown("<p class='main-header'>🛡️ ScamCheck AI Platform</p>", unsafe_allow_html=True)
-st.markdown("<p class='sub-header'>Real-time verification system for internships, jobs, and communication channels.</p>", unsafe_allow_html=True)
+# ---------------------------------------------------------
+# HEADER SECTION
+# ---------------------------------------------------------
+st.markdown("""
+<div class="header-box">
+    <div class="header-title">🛡️ ScamCheck AI</div>
+    <div class="header-subtitle">Intelligent verification system for student job offers, internships, and company logos.</div>
+</div>
+""", unsafe_allow_html=True)
 
-# 2. API Key Management
+# API Key handling
 api_key = st.secrets.get("GEMINI_API_KEY", "")
 if not api_key:
-    with st.sidebar:
-        st.header("⚙️ Configuration")
-        api_key = st.text_input("Gemini API Key", type="password")
+    api_key = st.text_input("Enter Gemini API Key to initialize system:", type="password")
 
-# 3. Helper Functions
+# Local Pattern Matcher
 def run_heuristic_check(text):
-    """Local regex match for instant red flags."""
     flags = []
-    text_lower = text.lower()
-    
-    if re.search(r'\b(registration fee|security deposit|processing fee|pay for laptop|training fee)\b', text_lower):
-        flags.append("Payment Requested: Asks for money prior to employment.")
-    if re.search(r'\b(telegram|whatsapp only|contact hr on whatsapp)\b', text_lower):
-        flags.append("Unofficial Channel: Communicates strictly via instant messaging.")
-    if re.search(r'\b(earn \$?\d+00 per day|50000 per month for 1 hour)\b', text_lower):
-        flags.append("Unrealistic Compensation: Abnormally high pay for minimal work.")
-    if re.search(r'(@gmail\.com|@yahoo\.com|@outlook\.com)', text_lower):
-        flags.append("Free Email Domain: Sender uses a public email provider instead of a corporate domain.")
-        
+    t = text.lower()
+    if re.search(r'\b(registration fee|security deposit|processing fee|laptop fee|pay for kit)\b', t):
+        flags.append("Payment Demand: Explicitly asks for upfront fees.")
+    if re.search(r'\b(telegram|whatsapp only|contact hr via whatsapp)\b', t):
+        flags.append("Unofficial Channel: Restricts communication to instant messaging.")
+    if re.search(r'\b(earn \$?\d+00|50000 per month for 2 hours)\b', t):
+        flags.append("Irrealistic Compensation: Excessive salary for minimal effort.")
     return flags
 
-# 4. Navigation Layout
-tab_text, tab_logo, tab_batch = st.tabs(["📝 Text & Link Analyzer", "🖼️ Logo & Document Verifier", "📊 Threat Statistics"])
+# Main Navigation
+tab_text, tab_logo = st.tabs(["📝 Verify Offer / Email", "🖼️ Verify Company Logo"])
 
 # ---------------------------------------------------------
-# TAB 1: TEXT & LINK ANALYZER
+# TAB 1: TEXT OFFER ANALYZER
 # ---------------------------------------------------------
 with tab_text:
-    col_input, col_preset = st.columns([2, 1])
-    
-    with col_preset:
-        st.markdown("##### 💡 Load Sample Test Data")
-        if st.button("🚨 Fake HR WhatsApp Scam"):
-            st.session_state["input_text"] = "Congratulations! You are selected for HR Assistant at Amazon. Salary 50,000 INR/month. Work 2 hours daily from home. Pay 1,500 INR registration fee to process laptop kit. Contact HR on WhatsApp: 9876543210."
-        if st.button("🟡 Suspicious Telegram Offer"):
-            st.session_state["input_text"] = "Urgent Hiring: Data Entry Operator needed immediately. Pay: $200/day. No interview needed. Contact manager directly on Telegram @Jobs_HR_Fast."
-        if st.button("✅ Official Company Referral"):
-            st.session_state["input_text"] = "We are hiring a Software Engineer Intern at TechCorp. Requirements: Python, React. Apply through our official portal: https://techcorp.com/careers/intern-2026. Official interviews will be conducted via Google Meet."
+    col_main, col_presets = st.columns([2, 1])
 
-    with col_input:
+    with col_presets:
+        st.markdown("<div class='card'><b>💡 Preset Test Cases</b>", unsafe_allow_html=True)
+        if st.button("🚨 Load Fake HR Scam"):
+            st.session_state["text_input"] = "Congratulations! You are selected for HR Assistant at Amazon. Salary 50,000 INR/month. Work 2 hours daily from home. Pay 1,500 INR registration fee to process laptop kit. Contact HR on WhatsApp: 9876543210."
+        if st.button("🟡 Load Telegram Offer"):
+            st.session_state["text_input"] = "Urgent Hiring: Data Entry Operator needed. Pay: $200/day. No interview needed. Contact manager directly on Telegram @Jobs_HR_Fast."
+        if st.button("✅ Load Official Internship"):
+            st.session_state["text_input"] = "We are hiring a Software Engineer Intern at TechCorp. Requirements: Python, React. Apply through our official portal: https://techcorp.com/careers/intern-2026."
+        st.markdown("</div>", unsafe_allow_html=True)
+
+    with col_main:
         user_text = st.text_area(
-            "Offer Content / Email Header / Direct Message", 
-            value=st.session_state.get("input_text", ""),
+            "Offer Details / Message Text", 
+            value=st.session_state.get("text_input", ""), 
             height=180, 
-            placeholder="Paste raw email text, WhatsApp message, or job listing..."
+            placeholder="Paste raw email header, WhatsApp message, or offer letter contents..."
         )
-        analyze_btn = st.button("🔍 Run Full AI & Pattern Scan", type="primary")
+        analyze_btn = st.button("✨ Run Risk Analysis", type="primary")
 
     if analyze_btn:
         if not api_key:
-            st.error("Missing API Key. Add it in the sidebar or Streamlit Secrets.")
+            st.error("Missing Gemini API Key.")
         elif not user_text.strip():
-            st.warning("Please provide text to analyze.")
+            st.warning("Please paste some text to analyze.")
         else:
-            # Step 1: Run Local Heuristics
-            heuristic_flags = run_heuristic_check(user_text)
+            local_flags = run_heuristic_check(user_text)
             
-            # Step 2: Run Gemini API Deep Scan
-            with st.spinner("Analyzing text against known fraud patterns..."):
+            with st.spinner("Processing analysis..."):
                 try:
                     client = genai.Client(api_key=api_key)
                     prompt = f"""
-                    You are a Fraud Analyst reviewing a potential job/internship opportunity.
-                    Analyze this text for scam signals:
+                    Analyze this opportunity for scam indicators:
                     "{user_text}"
 
                     Return ONLY a JSON object:
                     {{
                         "risk_score": <number 0 to 100>,
                         "risk_level": "<Low | Medium | High>",
-                        "warning_indicators": ["<indicator 1>", "<indicator 2>"],
-                        "channel_risk": "<Low | Medium | High>",
-                        "recommendation": "<practical safety instruction>"
+                        "warning_indicators": ["<warning 1>", "<warning 2>"],
+                        "recommendation": "<practical instruction>"
                     }}
                     """
                     response = client.models.generate_content(
@@ -111,85 +157,80 @@ with tab_text:
                     cleaned = response.text.strip().replace("```json", "").replace("```", "")
                     data = json.loads(cleaned)
 
-                    # Display Dashboard Results
-                    st.markdown("---")
-                    st.markdown("### 📋 Verification Results")
-
-                    # Metric Row
-                    m1, m2, m3 = st.columns(3)
+                    # RESULTS CARD
                     score = data.get("risk_score", 0)
                     level = data.get("risk_level", "Unknown")
 
-                    with m1:
-                        st.metric("Overall Risk Score", f"{score} / 100")
-                    with m2:
-                        st.metric("Threat Level", level)
-                    with m3:
-                        st.metric("Heuristic Red Flags", f"{len(heuristic_flags)} Detected")
+                    st.markdown("---")
+                    st.subheader("Analysis Dashboard")
 
-                    # Status Banner
-                    if level == "High":
-                        st.error("🔴 **HIGH RISK:** Severe scam indicators detected. Do NOT proceed or pay any money.")
-                    elif level == "Medium":
-                        st.warning("🟡 **MEDIUM RISK / CAUTION:** Suspicious elements found. Verify official company website.")
-                    else:
-                        st.success("🟢 **LOW RISK:** Content structure appears consistent with standard opportunities.")
-
-                    # Details Sections
-                    c1, c2 = st.columns(2)
+                    # Score Gauge and Level Badge
+                    c1, c2 = st.columns([1, 2])
                     with c1:
-                        st.markdown("#### ⚠️ Fraud Indicators")
-                        all_warnings = list(set(heuristic_flags + data.get("warning_indicators", [])))
-                        for w in all_warnings:
-                            st.write(f"- {w}")
-
+                        st.metric("Risk Score", f"{score} / 100")
+                        st.progress(score / 100)
+                    
                     with c2:
-                        st.markdown("#### 💡 Actionable Guidance")
-                        st.info(data.get("recommendation", "Verify through official corporate channels."))
+                        st.write("**Risk Classification:**")
+                        if level == "High":
+                            st.markdown('<span class="badge-high">🔴 HIGH RISK SCAM</span>', unsafe_allow_html=True)
+                        elif level == "Medium":
+                            st.markdown('<span class="badge-medium">🟡 MEDIUM RISK / CAUTION</span>', unsafe_allow_html=True)
+                        else:
+                            st.markdown('<span class="badge-low">🟢 LOW RISK / APPEARS LEGIT</span>', unsafe_allow_html=True)
 
-                    # Downloadable Summary
-                    report_text = f"ScamCheck Verification Report\nScore: {score}/100\nLevel: {level}\nIndicators:\n" + "\n".join([f"- {i}" for i in all_warnings])
-                    st.download_button("📥 Export Safety Report (.txt)", report_text, file_name="scamcheck_report.txt")
+                    st.markdown("<br>", unsafe_allow_html=True)
+
+                    # Indicators Grid
+                    col_flags, col_advice = st.columns(2)
+                    with col_flags:
+                        st.markdown("<div class='card'><b>⚠️ Identified Fraud Indicators</b>", unsafe_allow_html=True)
+                        all_indicators = list(set(local_flags + data.get("warning_indicators", [])))
+                        for ind in all_indicators:
+                            st.markdown(f"• {ind}")
+                        st.markdown("</div>", unsafe_allow_html=True)
+
+                    with col_advice:
+                        st.markdown("<div class='card'><b>💡 Recommended Next Steps</b>", unsafe_allow_html=True)
+                        st.write(data.get("recommendation", "Always verify offers via official channels."))
+                        st.markdown("</div>", unsafe_allow_html=True)
 
                 except Exception as e:
-                    st.error(f"Analysis failed: {e}")
+                    st.error(f"Error executing scan: {e}")
 
 # ---------------------------------------------------------
-# TAB 2: LOGO & DOCUMENT VERIFIER
+# TAB 2: LOGO VERIFIER
 # ---------------------------------------------------------
 with tab_logo:
-    st.markdown("### 🖼️ Multimodal Visual Brand Inspection")
-    
-    col_up, col_info = st.columns([1, 1])
-    
-    with col_up:
-        uploaded_img = st.file_uploader("Upload Company Logo / Offer Letter Badge", type=["png", "jpg", "jpeg"])
-        target_company = st.text_input("Claimed Entity Name", placeholder="e.g., Google, Microsoft, Amazon")
-        verify_img_btn = st.button("🔍 Analyze Visual Authenticity", type="primary")
+    col_up, col_preview = st.columns([1, 1])
 
-    if verify_img_btn:
+    with col_up:
+        uploaded_file = st.file_uploader("Upload Logo Image or Badge Header", type=["png", "jpg", "jpeg"])
+        company_name = st.text_input("Claimed Company Name", placeholder="e.g. Amazon, Google, Microsoft")
+        verify_logo_btn = st.button("🖼️ Inspect Logo Authenticity", type="primary")
+
+    if verify_logo_btn:
         if not api_key:
             st.error("Missing API Key.")
-        elif not uploaded_img:
-            st.warning("Please upload an image file.")
+        elif not uploaded_file:
+            st.warning("Please upload an image first.")
         else:
-            with st.spinner("Inspecting logo vectors and pixel clarity..."):
+            with st.spinner("Analyzing image..."):
                 try:
-                    img = Image.open(uploaded_img)
-                    with col_info:
-                        st.image(img, caption="Uploaded File Preview", width=220)
+                    img = Image.open(uploaded_file)
+                    with col_preview:
+                        st.image(img, caption="Uploaded Image Preview", width=220)
 
                     client = genai.Client(api_key=api_key)
                     logo_prompt = f"""
-                    Inspect this image for brand authenticity for claimed entity: "{target_company}".
-                    Check for: pixelation around text, non-standard font choices, missing trademark symbols, or copy-pasted brand elements.
-                    
+                    Inspect this image for brand authenticity claiming to be: "{company_name}".
+                    Check for pixelation, edited text, missing trademarks, or unauthentic fonts.
+
                     Return ONLY a JSON object:
                     {{
                         "authenticity_score": <number 0 to 100>,
-                        "is_altered": <true or false>,
                         "visual_flaws": ["<flaw 1>", "<flaw 2>"],
-                        "summary": "<summary>"
+                        "summary": "<brief summary>"
                     }}
                     """
                     response = client.models.generate_content(
@@ -200,34 +241,22 @@ with tab_logo:
                     data = json.loads(cleaned)
 
                     st.markdown("---")
-                    st.markdown("### 🔍 Image Verification Summary")
                     auth_score = data.get("authenticity_score", 0)
 
-                    if auth_score >= 70:
-                        st.success(f"🟢 **Likely Genuine Logo** (Confidence: {auth_score}/100)")
-                    else:
-                        st.error(f"🔴 **Potential Fake / Low Quality Representation** (Confidence: {auth_score}/100)")
+                    st.metric("Authenticity Score", f"{auth_score} / 100")
+                    st.progress(auth_score / 100)
 
+                    if auth_score >= 70:
+                        st.markdown('<span class="badge-low">🟢 LIKELY AUTHENTIC LOGO</span>', unsafe_allow_html=True)
+                    else:
+                        st.markdown('<span class="badge-high">🔴 HIGH LIKELIHOOD OF FAKE / ALTERED LOGO</span>', unsafe_allow_html=True)
+
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    st.markdown("<div class='card'><b>🔍 Flaws Detected</b>", unsafe_allow_html=True)
                     for flaw in data.get("visual_flaws", []):
-                        st.write(f"- {flaw}")
-                    st.info(data.get("summary", ""))
+                        st.markdown(f"• {flaw}")
+                    st.write(data.get("summary", ""))
+                    st.markdown("</div>", unsafe_allow_html=True)
 
                 except Exception as e:
-                    st.error(f"Image analysis error: {e}")
-
-# ---------------------------------------------------------
-# TAB 3: THREAT STATISTICS
-# ---------------------------------------------------------
-with tab_batch:
-    st.markdown("### 📊 Platform Risk Insights")
-    s1, s2, s3 = st.columns(3)
-    s1.metric("Scam Detection Rate", "94.2%")
-    s2.metric("Common Vector", "Telegram / WhatsApp")
-    s3.metric("Average Risk Score", "72 / 100")
-    
-    st.markdown("""
-    #### Top Fraud Indicators Identified
-    1. **Upfront Payment Requests:** Charging students fees for "laptop deployment", "ID cards", or "training".
-    2. **Instant Hiring:** No technical or behavioral interview steps conducted.
-    3. **Unverified Contact Channels:** Avoiding corporate email systems and official domains.
-    """)
+                    st.error(f"Error inspecting logo: {e}")
