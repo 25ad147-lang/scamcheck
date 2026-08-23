@@ -1,11 +1,10 @@
 import json
 import re
-import random
 import streamlit as st
 from google import genai
 from PIL import Image
 
-# Page Configuration
+# 1. Page Configuration
 st.set_page_config(
     page_title="ScamCheck AI - Threat Intelligence Suite",
     page_icon="🛡️",
@@ -13,7 +12,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-# Custom High-Tech Styling
+# 2. Custom CSS Styling
 st.markdown("""
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap');
@@ -53,24 +52,24 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# Hero Header
+# 3. Hero Header
 st.markdown("""
 <div class="hero-container">
     <div class="hero-content">
         <div class="hero-title">🛡️ ScamCheck Threat Intelligence Suite</div>
-        <p style="color: #94a3b8; margin-top: 5px;">Advanced AI Scam DNA Analysis, Predictive Threat Tracking & Network Mapping</p>
+        <p style="color: #94a3b8; margin-top: 5px;">Advanced AI Scam DNA Analysis, Predictive Threat Tracking & Brand Impersonation Verification</p>
     </div>
 </div>
 """, unsafe_allow_html=True)
 
-# API Key Handling
+# 4. API Key Resolution (Secrets or Sidebar)
 api_key = st.secrets.get("GEMINI_API_KEY", "")
 if not api_key:
     with st.sidebar:
         st.subheader("🔑 API Key Setup")
         api_key = st.text_input("Enter Gemini API Key", type="password")
 
-# Navigation Tabs Matching Request Features
+# 5. Application Navigation
 t1, t2, t3, t4, t5 = st.tabs([
     "🎯 Risk Analysis & DNA", 
     "📈 Evolution Tracker", 
@@ -92,41 +91,56 @@ with t1:
             st.session_state["raw_text"] = "Congratulations! You are selected for HR Assistant at Amazon. Salary 50,000 INR/month. Pay 1,500 INR laptop process fee. Contact HR on WhatsApp: 9876543210."
         if st.button("⚠️ Load Phishing Link"):
             st.session_state["raw_text"] = "Urgent Data Entry Intern needed! Earn $300/day. No interview. Join instantly on Telegram @QuickJobs_2026."
+        if st.button("💬 Load Normal Text"):
+            st.session_state["raw_text"] = "Hi, my name is Harish."
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_in:
-        user_input = st.text_area("Opportunity Text", value=st.session_state.get("raw_text", ""), height=150)
+        user_input = st.text_area("Opportunity Text", value=st.session_state.get("raw_text", ""), height=150, placeholder="Paste job offer, WhatsApp text, or email body...")
         scan_btn = st.button("🔍 Run Full Threat Scan", type="primary")
 
     if scan_btn:
         if not api_key:
-            st.error("Missing Gemini API Key.")
+            st.error("Missing Gemini API Key. Please configure it in Streamlit Secrets or sidebar.")
         elif not user_input.strip():
             st.warning("Please enter text to analyze.")
         else:
             with st.spinner("Analyzing threat signals..."):
                 try:
                     client = genai.Client(api_key=api_key)
+                    
                     prompt = f"""
-                    Analyze this job offer for fraud risks:
+                    You are a Fraud Detection AI analyzing text submitted by students.
+                    
+                    TEXT TO ANALYZE:
                     "{user_input}"
+
+                    CRITICAL INSTRUCTION:
+                    1. If the input is just a simple greeting, personal statement, name (e.g. "hi", "I'm harish", "hello"), or contains no actual job offer/recruitment context:
+                       Set "risk_score" to 0, "risk_level" to "Low", "scam_dna" to "NONE-SAFE", list "No recruitment text detected" in indicators, and "N/A" for next_step_prediction.
+                    2. If it is a job/internship offer, evaluate for scam risks (upfront fee demands, Telegram/WhatsApp redirection, unrealistic compensation).
 
                     Return ONLY a JSON object:
                     {{
                         "risk_score": <number 0 to 100>,
                         "risk_level": "<Low | Medium | High>",
-                        "scam_dna": "<unique short identifier like DNA-ADV-PAYMENT-402>",
+                        "scam_dna": "<unique short identifier>",
                         "indicators": ["<indicator 1>", "<indicator 2>"],
-                        "next_step_prediction": "<What will the scammer ask the user to do NEXT if they reply? (e.g. Ask for credit card, send fake bank cheque)>"
+                        "next_step_prediction": "<predicted scammer action or N/A>"
                     }}
                     """
-                    res = client.models.generate_content(model='gemini-3.6-flash', contents=prompt)
+
+                    # Using gemini-3.6-flash
+                    res = client.models.generate_content(
+                        model='gemini-3.6-flash', 
+                        contents=prompt
+                    )
                     cleaned = res.text.strip().replace("```json", "").replace("```", "")
                     data = json.loads(cleaned)
 
                     st.markdown("---")
                     
-                    # 1. LIVE RISK METER
+                    # Live Risk Meter
                     st.markdown("#### ⚡ Feature: Live Risk Meter")
                     score = data.get("risk_score", 0)
                     st.metric("Live Risk Index", f"{score} / 100")
@@ -134,26 +148,26 @@ with t1:
 
                     c1, c2 = st.columns(2)
                     
-                    # 2. SCAM DNA / FINGERPRINT
+                    # Scam DNA
                     with c1:
                         st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                         st.markdown("#### 🧬 Feature: Scam DNA / Fingerprint")
-                        st.markdown(f"Signature ID: <span class='dna-tag'>{data.get('scam_dna', 'DNA-UNKNOWN')}</span>", unsafe_allow_html=True)
+                        st.markdown(f"Signature ID: <span class='dna-tag'>{data.get('scam_dna', 'DNA-NONE')}</span>", unsafe_allow_html=True)
                         st.write("**Key Indicators:**")
                         for ind in data.get("indicators", []):
                             st.write(f"- {ind}")
                         st.markdown('</div>', unsafe_allow_html=True)
 
-                    # 3. NEXT-STEP SCAM PREDICTION
+                    # Next-Step Prediction
                     with c2:
                         st.markdown('<div class="glass-card">', unsafe_allow_html=True)
                         st.markdown("#### 🔮 Feature: Next-Step Scam Prediction")
                         st.write("**Predicted Scammer Follow-up Action:**")
-                        st.warning(data.get("next_step_prediction", "No immediate next steps predicted."))
+                        st.warning(data.get("next_step_prediction", "N/A"))
                         st.markdown('</div>', unsafe_allow_html=True)
 
                 except Exception as e:
-                    st.error(f"Error analyzing: {e}")
+                    st.error(f"Error executing scan: {e}")
 
 # ---------------------------------------------------------
 # TAB 2: SCAM EVOLUTION TRACKER
@@ -199,15 +213,42 @@ with t4:
     c_name = st.text_input("Claimed Brand Name", placeholder="e.g. Amazon, Google")
 
     if st.button("Inspect Logo"):
-        if api_key and img_file:
+        if not api_key:
+            st.error("Please configure your Gemini API key.")
+        elif not img_file:
+            st.warning("Please upload an image first.")
+        else:
             try:
                 img = Image.open(img_file)
                 client = genai.Client(api_key=api_key)
-                prompt = f"Analyze if this logo accurately represents {c_name} or if it shows signs of edit/fake alteration. Return JSON: {{'score': <0-100>, 'verdict': '<text>'}}"
-                res = client.models.generate_content(model='gemini-3.6-flash', contents=[img, prompt])
+                
+                logo_prompt = f"""
+                Inspect this image claiming to be the official logo for "{c_name}".
+                Check for pixelation, font alterations, or copy-paste edits.
+                Return ONLY a JSON object:
+                {{
+                    "authenticity_score": <number 0-100>,
+                    "flaws": ["<flaw 1>", "<flaw 2>"],
+                    "verdict": "<summary>"
+                }}
+                """
+                
+                res = client.models.generate_content(
+                    model='gemini-3.6-flash', 
+                    contents=[img, logo_prompt]
+                )
                 clean = res.text.strip().replace("```json", "").replace("```", "")
-                d = json.loads(clean)
-                st.write(d)
+                data = json.loads(clean)
+                
+                st.markdown("---")
+                st.markdown('<div class="glass-card">', unsafe_allow_html=True)
+                st.subheader(f"Brand Index: {data.get('authenticity_score', 0)} / 100")
+                st.write(f"**Verdict:** {data.get('verdict', '')}")
+                st.write("**Visual Flaws:**")
+                for f in data.get('flaws', []):
+                    st.write(f"- {f}")
+                st.markdown('</div>', unsafe_allow_html=True)
+
             except Exception as e:
                 st.error(f"Error inspecting image: {e}")
 
