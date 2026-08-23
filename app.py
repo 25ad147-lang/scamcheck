@@ -22,7 +22,8 @@ if col2.button("✅ Load Legitimate Internship"):
 # Input Text Area
 user_input = st.text_area("Offer Text / Email / Message", value=sample_text, height=180, placeholder="Paste email, WhatsApp message, or job post here...")
 
-api_key = st.text_input("Enter Gemini API Key", type="password")
+# Updated Line 28:
+api_key = st.text_input("Enter Gemini API Key (Optional)", type="password") or st.secrets.get("GEMINI_API_KEY", "")
 
 if st.button("🔍 Analyze Opportunity", type="primary"):
     if not api_key:
