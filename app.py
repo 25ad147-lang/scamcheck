@@ -133,7 +133,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# COMPREHENSIVE TRANSLATIONS DICTIONARY
+# COMPREHENSIVE TRANSLATIONS FOR ALL 6 LANGUAGES
 # ---------------------------------------------------------
 LANGUAGES = {
     "English": {
@@ -253,15 +253,238 @@ LANGUAGES = {
         "authentic_badge": "🟢 உண்மையான நிறுவனத்தின் படம்",
         "fake_badge": "🔴 போலி / மாற்றியமைக்கப்பட்ட படம்",
         "flaws_title": "🔍 கண்டறியப்பட்ட காட்சி தவறுகள்"
+    },
+    "हिन्दी": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "इंटर्नशिप और नौकरी के प्रस्तावों की जाँच करने वाला प्लेटफ़ॉर्म",
+        "select": "🌐 अपनी भाषा चुनें",
+        "continue": "🚀 जारी रखें",
+        "sec_dashboard": "📈 सुरक्षा डैशबोर्ड",
+        "scan_history_tab": "🧾 स्कैन इतिहास",
+        "cyber_shield_title": "🛡️ साइबर-शील्ड सुरक्षा केंद्र",
+        "cyber_shield_desc": "संदिग्ध संदेशों, लिंक और संपर्क जानकारी की जांच के लिए इस डैशबोर्ड का उपयोग करें।",
+        "total_scans": "कुल स्कैन",
+        "high_risk_scans": "उच्च जोखिम वाले स्कैन",
+        "avg_risk": "औसत जोखिम",
+        "quick_inspector_title": "🔎 त्वरित संदेश निरीक्षक",
+        "quick_inspector_label": "त्वरित जांच के लिए एक संदिग्ध संदेश पेस्ट करें",
+        "run_quick_check": "⚡ त्वरित सुरक्षा जांच चलाएं",
+        "local_risk_score": "स्थानीय जोखिम स्कोर",
+        "no_red_flags": "🟢 कोई प्रमुख जोखिम चेतावनी नहीं मिली।",
+        "red_flags": "🚩 खतरे के संकेत",
+        "extracted_details": "🌐 निकाले गए लिंक / संपर्क विवरण",
+        "urls": "लिंक (URLs):",
+        "emails": "ईमेल:",
+        "phones": "फोन नंबर:",
+        "safety_actions_title": "🛡️ अनुशंसित सुरक्षा कदम",
+        "safety_actions": [
+            "पंजीकरण, सुरक्षा या प्रशिक्षण शुल्क का भुगतान न करें।",
+            "कंपनी की आधिकारिक वेबसाइट पर रिक्ति की पुष्टि करें।",
+            "OTP, UPI PIN, या बैंक विवरण साझा न करें।",
+            "प्रेषक के ईमेल डोमेन की ध्यान से जांच करें।",
+            "अज्ञात छोटे लिंक या संलग्नक खोलने से बचें।",
+            "कंपनी से स्वतंत्र रूप से प्राप्त संपर्क नंबर पर संपर्क करें।"
+        ],
+        "prev_scan_title": "🧾 पिछले स्कैन परिणाम",
+        "no_scans": "इस सत्र में अभी तक कोई स्कैन दर्ज नहीं किया गया है।",
+        "clear_history": "🗑️ इतिहास साफ़ करें",
+        "verify_tab": "🚀 ऑफर संदेश की जांच करें",
+        "logo_tab": "🔍 लोगो प्रमाणिकता की जांच करें",
+        "presets_title": "⚡ त्वरित परीक्षण नमूने",
+        "preset_fake": "🚨 नकली एचआर फ्रॉड",
+        "preset_telegram": "🟡 टेलीग्राम ऑफर",
+        "preset_legit": "✅ वास्तविक नौकरी",
+        "text_area_label": "प्रस्ताव / ईमेल / संदेश यहां पेस्ट करें",
+        "scan_btn": "🔥 अवसर को स्कैन करें",
+        "threat_report": "📊 खतरा विश्लेषण रिपोर्ट",
+        "risk_score_card": "जोखिम स्कोर",
+        "threat_status": "खतरे का स्तर",
+        "high_risk_badge": "🔴 उच्च जोखिम खतरा पाया गया",
+        "med_risk_badge": "🟡 मध्यम जोखिम / सावधानी की आवश्यकता",
+        "low_risk_badge": "🟢 कम जोखिम / सत्यापित प्रोफ़ाइल",
+        "verdict": "निष्कर्ष:",
+        "identified_indicators": "🚩 पहचाने गए जोखिम संकेतक",
+        "logo_upload_label": "कंपनी का लोगो अपलोड करें",
+        "company_name_label": "दावा की गई कंपनी का नाम",
+        "verify_logo_btn": "👁️ लोगो की जांच करें",
+        "visual_report": "विजुअल विश्लेषण रिपोर्ट",
+        "auth_index": "प्रमाणिकता सूचकांक:",
+        "authentic_badge": "🟢 प्रामाणिक ब्रांड छवि",
+        "fake_badge": "🔴 नकली या परिवर्तित छवि की उच्च संभावना",
+        "flaws_title": "🔍 पहचानी गई कमियां"
+    },
+    "മലയാളം": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ഇന്റേൺഷിപ്പ്, ജോലി ഓഫറുകൾ എന്നിവ പരിശോധിക്കുന്ന പ്ലാറ്റ്ഫോം",
+        "select": "🌐 നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക",
+        "continue": "🚀 തുടരുക",
+        "sec_dashboard": "📈 സുരക്ഷാ ഡാഷ്‌ബോർഡ്",
+        "scan_history_tab": "🧾 സ്‌കാൻ ചരിത്രം",
+        "cyber_shield_title": "🛡️ സൈബർ ഷീൽഡ് സുരക്ഷാ കേന്ദ്രം",
+        "cyber_shield_desc": "സംശയാസ്പദമായ സന്ദേശങ്ങൾ, ലിങ്കുകൾ, വിവരങ്ങൾ എന്നിവ പരിശോധിക്കാൻ ഈ ഡാഷ്‌ബോർഡ് ഉപയോഗിക്കുക.",
+        "total_scans": "ആകെ സ്‌കാനുകൾ",
+        "high_risk_scans": "ഉയർന്ന അപകടസാധ്യതയുള്ള സ്‌കാനുകൾ",
+        "avg_risk": "ശരാശരി അപകടസാധ്യത",
+        "quick_inspector_title": "🔎 സന്ദേശ പരിശോധന",
+        "quick_inspector_label": "ഉടൻ പരിശോധിക്കാൻ സംശയാസ്പദമായ സന്ദേശം ഇവിടെ നൽകുക",
+        "run_quick_check": "⚡ സുരക്ഷാ പരിശോധന നടത്തുക",
+        "local_risk_score": "അപകടസാധ്യത സ്കോർ",
+        "no_red_flags": "🟢 അപകട സൂചനകളൊന്നും കണ്ടെത്തിയില്ല.",
+        "red_flags": "🚩 അപകട മുന്നറിയിപ്പുകൾ",
+        "extracted_details": "🌐 കണ്ടെത്തിയ ലിങ്കുകൾ / വിവരങ്ങൾ",
+        "urls": "ലിങ്കുകൾ:",
+        "emails": "ഇമെയിലുകൾ:",
+        "phones": "ഫോൺ നമ്പറുകൾ:",
+        "safety_actions_title": "🛡️ സുരക്ഷാ നിർദ്ദേശങ്ങൾ",
+        "safety_actions": [
+            "രജിസ്ട്രേഷൻ, പരിശീലനം എന്നിവയ്ക്കായി പണം നൽകരുത്.",
+            "ഔദ്യോഗിക വെബ്സൈറ്റിൽ ജോലി വിവരങ്ങൾ ഉറപ്പാക്കുക.",
+            "OTP, UPI PIN, ബാങ്ക് വിവരങ്ങൾ കൈമാറരുത്.",
+            "ഇമെയിൽ വിലാസങ്ങൾ ശ്രദ്ധയോടെ പരിശോധിക്കുക."
+        ],
+        "prev_scan_title": "🧾 മുൻ സ്‌കാൻ ഫലങ്ങൾ",
+        "no_scans": "ചരിത്രമൊന്നും ലഭ്യമല്ല.",
+        "clear_history": "🗑️ ചരിത്രം മായ്ക്കുക",
+        "verify_tab": "🚀 സന്ദേശം പരിശോധിക്കുക",
+        "logo_tab": "🔍 ലോഗോ പരിശോധിക്കുക",
+        "presets_title": "⚡ മാതൃകാ സന്ദേശങ്ങൾ",
+        "preset_fake": "🚨 വ്യാജ HR സന്ദേശം",
+        "preset_telegram": "🟡 ടെലിഗ്രാം ഓഫർ",
+        "preset_legit": "✅ യഥാർത്ഥ ജോലി ഓഫർ",
+        "text_area_label": "സന്ദേശം ഇവിടെ पेस्ट ചെയ്യുക",
+        "scan_btn": "🔥 സ്‌കാൻ ചെയ്യുക",
+        "threat_report": "📊 സുരക്ഷാ റിപ്പോർട്ട്",
+        "risk_score_card": "അപകട സ്കോർ",
+        "threat_status": "അപകട നില",
+        "high_risk_badge": "🔴 വലിയ അപകടസാധ്യതയുള്ള സന്ദേശം",
+        "med_risk_badge": "🟡 ശ്രദ്ധിക്കുക / ജാഗ്രത പാലിക്കുക",
+        "low_risk_badge": "🟢 സുരക്ഷിതമായ സന്ദേശം",
+        "verdict": "തീരുമാനം:",
+        "identified_indicators": "🚩 കണ്ടെത്തിയ ലക്ഷണങ്ങൾ",
+        "logo_upload_label": "ലോഗോ അപ്‌ലോഡ് ചെയ്യുക",
+        "company_name_label": "കമ്പനിയുടെ പേര്",
+        "verify_logo_btn": "👁️ ലോഗോ പരിശോധിക്കുക",
+        "visual_report": "ചിത്ര പരിശോധനാ റിപ്പോർട്ട്",
+        "auth_index": "വിശ്വാസ്യത:",
+        "authentic_badge": "🟢 വ്യാജമല്ല",
+        "fake_badge": "🔴 വ്യാജ ചിത്രമാകാൻ സാധ്യതയുണ്ട്",
+        "flaws_title": "🔍 ചിത്രത്തിലെ പ്രശ്നങ്ങൾ"
+    },
+    "ಕನ್ನಡ": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ಇಂಟರ್ನ್‌ಶಿಪ್ ಮತ್ತು ಉದ್ಯೋಗ ಆಫರ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸುವ ವೇದಿಕೆ",
+        "select": "🌐 ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "continue": "🚀 ಮುಂದುವರಿಸಿ",
+        "sec_dashboard": "📈 ಭದ್ರತಾ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್",
+        "scan_history_tab": "🧾 ಸ್ಕ್ಯಾನ್ ಇತಿಹಾಸ",
+        "cyber_shield_title": "🛡️ ಸೈಬರ್ ಶೀಲ್ಡ್ ಭದ್ರತಾ ಕೇಂದ್ರ",
+        "cyber_shield_desc": "ಸಂದೇಹಾಸ್ಪದ ಸಂದೇಶಗಳು, ಲಿಂಕ್‌ಗಳು ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಲು ಈ ಡ್ಯಾಶ್‌ಬೋರ್ಡ್ ಬಳಸಿ.",
+        "total_scans": "ಒಟ್ಟು ಸ್ಕ್ಯಾನ್‌ಗಳು",
+        "high_risk_scans": "ಹೆಚ್ಚಿನ ಅಪಾಯದ ಸ್ಕ್ಯಾನ್‌ಗಳು",
+        "avg_risk": "ಸರಾಸರಿ ಅಪಾಯ",
+        "quick_inspector_title": "🔎 ತ್ವರಿತ ಸಂದೇಶ ತಪಾಸಣೆ",
+        "quick_inspector_label": "ತಕ್ಷಣ ಪರಿಶೀಲಿಸಲು ಸಂದೇಹಾಸ್ಪದ ಸಂದೇಶವನ್ನು ಪೇಸ್ಟ್ ಮಾಡಿ",
+        "run_quick_check": "⚡ ಭದ್ರತಾ ತಪಾಸಣೆ ನಡೆಸಿ",
+        "local_risk_score": "ಅಪಾಯದ ಸ್ಕೋರ್",
+        "no_red_flags": "🟢 ಯಾವುದೇ ದೊಡ್ಡ ಅಪಾಯದ ಸೂಚನೆ ಕಂಡುಬಂದಿಲ್ಲ.",
+        "red_flags": "🚩 ಅಪಾಯದ ಸೂಚನೆಗಳು",
+        "extracted_details": "🌐 ಲಿಂಕ್‌ಗಳು ಮತ್ತು ಸಂಪರ್ಕ ವಿವರಗಳು",
+        "urls": "ಲಿಂಕ್‌ಗಳು:",
+        "emails": "ಇಮೇಲ್‌ಗಳು:",
+        "phones": "ಫೋನ್ ಸಂಖ್ಯೆಗಳು:",
+        "safety_actions_title": "🛡️ ಶಿಫಾರಸು ಮಾಡಲಾದ ಭದ್ರತಾ ಕ್ರಮಗಳು",
+        "safety_actions": [
+            "ನೋಂದಣಿ ಅಥವಾ ತರಬೇತಿ ಶುಲ್ಕವನ್ನು ಪಾವತಿಸಬೇಡಿ.",
+            "ಅಧಿಕೃತ ವೆಬ್‌ಸೈಟ್‌ನಲ್ಲಿ ಕೆಲಸದ ವಿವರಗಳನ್ನು ಪರಿಶೀಲಿಸಿ.",
+            "OTP, UPI PIN ಅಥವಾ ಬ್ಯಾಂಕ್ ವಿವರಗಳನ್ನು ಹಂಚಿಕೊಳ್ಳಬೇಡಿ."
+        ],
+        "prev_scan_title": "🧾 ಹಿಂದಿನ ಸ್ಕ್ಯಾನ್ ಫಲಿತಾಂಶಗಳು",
+        "no_scans": "ಯಾವುದೇ ಇತಿಹಾಸ ಲಭ್ಯವಿಲ್ಲ.",
+        "clear_history": "🗑️ ಇತಿಹಾಸವನ್ನು ಅಳಿಸಿ",
+        "verify_tab": "🚀 ಸಂದೇಶ ಪರಿಶೀಲಿಸಿ",
+        "logo_tab": "🔍 ಲೋಗೋ ತಪಾಸಣೆ",
+        "presets_title": "⚡ ಮಾದರಿ ಪರೀಕ್ಷೆಗಳು",
+        "preset_fake": "🚨 ನಕಲಿ HR ಸಂದೇಶ",
+        "preset_telegram": "🟡 ಟೆಲಿಗ್ರಾಂ ಆಫರ್",
+        "preset_legit": "✅ ನೈಜ ಉದ್ಯೋಗ ಆಫರ್",
+        "text_area_label": "ಸಂದೇಶವನ್ನು ಇಲ್ಲಿ ಪೇಸ್ಟ್ ಮಾಡಿ",
+        "scan_btn": "🔥 ಸ್ಕ್ಯಾನ್ ಮಾಡಿ",
+        "threat_report": "📊 ಅಪಾಯದ ವರದಿ",
+        "risk_score_card": "ಅಪಾಯದ ಸ್ಕೋರ್",
+        "threat_status": "ಅಪಾಯದ ಮಟ್ಟ",
+        "high_risk_badge": "🔴 ಹೆಚ್ಚಿನ ಅಪಾಯ ಪತ್ತೆಯಾಗಿದೆ",
+        "med_risk_badge": "🟡 ಮಧ್ಯಮ ಅಪಾಯ / ಎಚ್ಚರಿಕೆ ವಹಿಸಿ",
+        "low_risk_badge": "🟢 ಸುರಕ್ಷಿತ ಸಂದೇಶ",
+        "verdict": "ತೀರ್ಪು:",
+        "identified_indicators": "🚩 ಪತ್ತೆಯಾದ ಅಪಾಯದ ಸೂಚಕಗಳು",
+        "logo_upload_label": "ಲೋಗೋ ಅಪ್‌ಲೋಡ್ ಮಾಡಿ",
+        "company_name_label": "ಸಂಸ್ಥೆಯ ಹೆಸರು",
+        "verify_logo_btn": "👁️ ಲೋಗೋ ಪರಿಶೀಲಿಸಿ",
+        "visual_report": "ಚಿತ್ರ ವಿಶ್ಲೇಷಣೆ ವರದಿ",
+        "auth_index": "ವಿಶ್ವಾಸಾರ್ಹತೆ:",
+        "authentic_badge": "🟢 ನೈಜ ಲೋಗೋ",
+        "fake_badge": "🔴 ನಕಲಿ ಚಿತ್ರವಾಗಿರುವ ಸಾಧ್ಯತೆ ಹೆಚ್ಚು",
+        "flaws_title": "🔍 ಪತ್ತೆಯಾದ ದೋಷಗಳು"
+    },
+    "తెలుగు": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ఇంటర్న్‌షిప్ మరియు ఉద్యోగ ఆఫర్లను ధృవీకరించే ప్లాట్‌ఫారమ్",
+        "select": "🌐 మీ భాషను ఎంచుకోండి",
+        "continue": "🚀 కొనసాగించండి",
+        "sec_dashboard": "📈 సెక్యూరిటీ డాష్‌బోర్డ్",
+        "scan_history_tab": "🧾 స్కాన్ హిస్టరీ",
+        "cyber_shield_title": "🛡️ సైబర్ షీల్డ్ సెక్యూరిటీ సెంటర్",
+        "cyber_shield_desc": "సందేహాస్పద సందేశాలు, లింకులు మరియు వివరాలను తనిఖీ చేయడానికి ఈ డాష్‌బోర్డ్‌ను ఉపయోగించండి.",
+        "total_scans": "మొత్తం స్కాన్లు",
+        "high_risk_scans": "హై రిస్క్ స్కాన్లు",
+        "avg_risk": "సగటు రిస్క్",
+        "quick_inspector_title": "🔎 మెసేజ్ ఇన్‌స్పెక్టర్",
+        "quick_inspector_label": "తక్షణ తనిఖీ కోసం సందేహాస్పద సందేశాన్ని పేస్ట్ చేయండి",
+        "run_quick_check": "⚡ సెక్యూరిటీ చెక్ చేయండి",
+        "local_risk_score": "రిస్క్ స్కోర్",
+        "no_red_flags": "🟢 ఎటువంటి పెద్ద ప్రమాద హెచ్చరికలు కనుగొనబడలేదు.",
+        "red_flags": "🚩 ప్రమాద సూచికలు",
+        "extracted_details": "🌐 లింకులు / సంప్రదింపు వివరాలు",
+        "urls": "లింకులు:",
+        "emails": "ఇమెయిళ్ళు:",
+        "phones": "ఫోన్ నంబర్లు:",
+        "safety_actions_title": "🛡️ సురక్షిత సూచనలు",
+        "safety_actions": [
+            "రిజిస్ట్రేషన్ లేదా శిక్షణ రుసుములను చెల్లించవద్దు.",
+            "అధికారిక వెబ్‌సైట్‌లో ఉద్యోగ వివరాలను సరిచూసుకోండి.",
+            "OTP, UPI PIN, లేదా బ్యాంకు వివరాలను పంచుకోవద్దు."
+        ],
+        "prev_scan_title": "🧾 క్రితం స్కాన్ ఫలితాలు",
+        "no_scans": "ఎటువంటి హిస్టరీ లేదు.",
+        "clear_history": "🗑️ హిస్టరీని క్లియర్ చేయండి",
+        "verify_tab": "🚀 మెసేజ్‌ని తనిఖీ చేయండి",
+        "logo_tab": "🔍 లోగోని సరిచూడండి",
+        "presets_title": "⚡ నమూనా పరీక్షలు",
+        "preset_fake": "🚨 నకిలీ HR మెసేజ్",
+        "preset_telegram": "🟡 టెలిగ్రామ్ ఆఫర్",
+        "preset_legit": "✅ నిజమైన ఉద్యోగం",
+        "text_area_label": "మెసేజ్‌ని ఇక్కడ పేస్ట్ చేయండి",
+        "scan_btn": "🔥 స్కాన్ చేయండి",
+        "threat_report": "📊 విశ్లేషణ నివేదిక",
+        "risk_score_card": "రిస్క్ స్కోర్",
+        "threat_status": "ప్రమాద స్థాయి",
+        "high_risk_badge": "🔴 తీవ్రమైన ప్రమాదం గుర్తించబడింది",
+        "med_risk_badge": "🟡 మితమైన ప్రమాదం / జాగ్రత్త వహించండి",
+        "low_risk_badge": "🟢 సురక్షితమైన సందేశం",
+        "verdict": "తీర్పు:",
+        "identified_indicators": "🚩 గుర్తించిన రిస్క్ వివరాలు",
+        "logo_upload_label": "లోగోని అప్‌లోడ్ చేయండి",
+        "company_name_label": "సంస్థ పేరు",
+        "verify_logo_btn": "👁️ లోగోని తనిఖీ చేయండి",
+        "visual_report": "చిత్ర విశ్లేషణ నివేదిక",
+        "auth_index": "విశ్వసనీయత:",
+        "authentic_badge": "🟢 నిజమైన లోగో",
+        "fake_badge": "🔴 నకిలీ చిత్రమయ్యే అవకాశం ఉంది",
+        "flaws_title": "🔍 గుర్తించిన లోపాలు"
     }
 }
 
-# Add default fallbacks for Hindi, Telugu, Kannada, Malayalam if selected
-default_lang = LANGUAGES["English"]
-for l_key in ["हिन्दी", "മലയാളം", "ಕನ್ನಡ", "తెలుగు"]:
-    if l_key not in LANGUAGES:
-        LANGUAGES[l_key] = default_lang
-
+# Language Selection Screen First Render
 if "language_selected" not in st.session_state:
     st.session_state["language_selected"] = False
 
@@ -289,13 +512,13 @@ if not st.session_state["language_selected"]:
     <div class="language-screen">
         <div class="language-logo">🛡️ ScamCheck AI</div>
         <div style="color: #94a3b8; font-size: 1.05rem; margin-bottom: 28px;">
-            Choose your preferred language before entering the application
+            Choose your preferred language / உங்கள் மொழியைத் தேர்ந்தெடுக்கவும் / अपनी भाषा चुनें
         </div>
     </div>
     """, unsafe_allow_html=True)
 
     selected_language = st.selectbox(
-        "🌐 Select your language / மொழியைத் தேர்ந்தெடுக்கவும்",
+        "🌐 Select language / மொழியைத் தேர்ந்தெடுக்கவும்",
         list(LANGUAGES.keys()),
         index=0
     )
@@ -411,7 +634,7 @@ def show_safety_checklist():
     for action in UI["safety_actions"]:
         st.markdown(f"- {action}")
 
-# Primary App Tabs
+# Dashboard Tabs
 tab_dashboard, tab_history = st.tabs([UI["sec_dashboard"], UI["scan_history_tab"]])
 
 with tab_dashboard:
@@ -491,7 +714,7 @@ with tab_history:
         st.session_state["scan_history"] = []
         st.rerun()
 
-# Verification Tabs
+# Primary App Tabs
 tab_offer, tab_brand = st.tabs([UI["verify_tab"], UI["logo_tab"]])
 
 with tab_offer:
@@ -527,7 +750,7 @@ with tab_offer:
                 try:
                     client = genai.Client(api_key=api_key)
                     prompt = f"""
-                    Analyze this opportunity for scam risk:
+                    Analyze this opportunity for scam risk and respond in {selected_language}:
                     "{user_text}"
 
                     Return ONLY a JSON object:
@@ -535,7 +758,7 @@ with tab_offer:
                         "risk_score": <number 0 to 100>,
                         "risk_level": "<Low | Medium | High>",
                         "warning_indicators": ["<indicator 1>", "<indicator 2>"],
-                        "recommendation": "<advice>"
+                        "recommendation": "<advice in {selected_language}>"
                     }}
                     """
                     response = client.models.generate_content(
@@ -552,7 +775,7 @@ with tab_offer:
                             "risk_score": local_score,
                             "risk_level": level,
                             "warning_indicators": local_flags,
-                            "recommendation": "Analysis compiled by offline heuristic engine."
+                            "recommendation": "Analysis completed using local heuristic rules."
                         }
                     else:
                         st.error(f"Error: {e}")
@@ -625,7 +848,7 @@ with tab_brand:
                     {{
                         "authenticity_score": <number 0 to 100>,
                         "visual_flaws": ["<flaw 1>", "<flaw 2>"],
-                        "summary": "<summary>"
+                        "summary": "<summary in {selected_language}>"
                     }}
                     """
                     response = client.models.generate_content(
