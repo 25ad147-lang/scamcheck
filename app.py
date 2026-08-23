@@ -12,7 +12,7 @@ st.write("Analyze suspicious offer messages, emails, or company logos to detect 
 
 # Retrieve API Key (From Secrets or Manual Input)
 
-api_key = api_key_input or st.secrets.get("GEMINI_API_KEY", "")
+api_key = st.secrets.get("GEMINI_API_KEY", "")
 
 # Tabs for dual features
 tab1, tab2 = st.tabs(["📝 Text Offer Verification", "🖼️ Logo Verification"])
