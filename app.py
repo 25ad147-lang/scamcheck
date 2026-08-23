@@ -102,7 +102,7 @@ st.markdown("""
         display: inline-block;
     }
 
-    /* Stylish Input Areas */
+    /* Text Area Styling */
     .stTextArea textarea {
         background-color: #1e293b !important;
         color: #f8fafc !important;
@@ -114,7 +114,7 @@ st.markdown("""
         box-shadow: 0 0 10px rgba(168, 85, 247, 0.5) !important;
     }
 
-    /* Vibrant Gradient Buttons */
+    /* Button Styling */
     .stButton > button {
         background: linear-gradient(90deg, #6366f1 0%, #a855f7 100%) !important;
         color: white !important;
@@ -133,7 +133,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# LANGUAGE SELECTION — FIRST SCREEN
+# COMPREHENSIVE TRANSLATIONS DICTIONARY
 # ---------------------------------------------------------
 LANGUAGES = {
     "English": {
@@ -141,38 +141,126 @@ LANGUAGES = {
         "subtitle": "Next-Generation Verification Platform for Internship & Job Offers",
         "select": "🌐 Select your language",
         "continue": "🚀 Continue",
+        "sec_dashboard": "📈 Security Dashboard",
+        "scan_history_tab": "🧾 Scan History",
+        "cyber_shield_title": "🛡️ CyberShield Security Center",
+        "cyber_shield_desc": "Use this dashboard to inspect suspicious recruitment messages, URLs, contact information, and previous scan results.",
+        "total_scans": "Total Scans",
+        "high_risk_scans": "High Risk Scans",
+        "avg_risk": "Average Risk",
+        "quick_inspector_title": "🔎 Quick Message Inspector",
+        "quick_inspector_label": "Paste a suspicious message for instant local checks",
+        "run_quick_check": "⚡ Run Quick Security Check",
+        "local_risk_score": "Local Risk Score",
+        "no_red_flags": "🟢 No major local red flags detected.",
+        "red_flags": "🚩 Red Flags",
+        "extracted_details": "🌐 Extracted Links / Contact Details",
+        "urls": "URLs:",
+        "emails": "Emails:",
+        "phones": "Phone numbers:",
+        "safety_actions_title": "🛡️ Recommended Safety Actions",
+        "safety_actions": [
+            "Do not pay registration, security, training, equipment, or processing fees.",
+            "Verify the vacancy on the company's official careers website.",
+            "Do not share OTP, UPI PIN, CVV, passwords, or banking credentials.",
+            "Check the sender's email domain carefully for impersonation.",
+            "Avoid opening unknown shortened links or attachments.",
+            "Contact the company using a phone number or email obtained independently."
+        ],
+        "prev_scan_title": "🧾 Previous Scan Results",
+        "no_scans": "No scans recorded in this session yet.",
+        "clear_history": "🗑️ Clear Scan History",
+        "verify_tab": "🚀 Verify Text / Offer",
+        "logo_tab": "🔍 Inspect Logo Authenticity",
+        "presets_title": "⚡ Quick Test Presets",
+        "preset_fake": "🚨 Load Fake HR Scam",
+        "preset_telegram": "🟡 Load Telegram Offer",
+        "preset_legit": "✅ Load Legit Opportunity",
+        "text_area_label": "Paste Offer / Email / Message Here",
+        "scan_btn": "🔥 Scan Opportunity",
+        "threat_report": "📊 Threat Intelligence Report",
+        "risk_score_card": "RISK SCORE",
+        "threat_status": "Threat Level Status",
+        "high_risk_badge": "🔴 HIGH RISK THREAT DETECTED",
+        "med_risk_badge": "🟡 MEDIUM RISK / EXTREME CAUTION",
+        "low_risk_badge": "🟢 LOW RISK / VERIFIED PROFILE",
+        "verdict": "Verdict:",
+        "identified_indicators": "🚩 Identified Risk Indicators",
+        "logo_upload_label": "Upload Brand Logo or Offer Header",
+        "company_name_label": "Claimed Company Name",
+        "verify_logo_btn": "👁️ Verify Brand Authenticity",
+        "visual_report": "Visual Analysis Report",
+        "auth_index": "Authenticity Index:",
+        "authentic_badge": "🟢 AUTHENTIC BRAND IMAGE",
+        "fake_badge": "🔴 HIGH CHANCE OF FRAUDULENT / ALTERED LOGO",
+        "flaws_title": "🔍 Image Flaws Detected"
     },
     "தமிழ்": {
         "title": "⚡ ScamCheck AI",
         "subtitle": "இன்டர்ன்ஷிப் மற்றும் வேலை வாய்ப்புகளை சரிபார்க்கும் தளம்",
         "select": "🌐 உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
         "continue": "🚀 தொடரவும்",
-    },
-    "हिन्दी": {
-        "title": "⚡ ScamCheck AI",
-        "subtitle": "इंटर्नशिप और नौकरी के प्रस्तावों की जाँच करने वाला प्लेटफ़ॉर्म",
-        "select": "🌐 अपनी भाषा चुनें",
-        "continue": "🚀 जारी रखें",
-    },
-    "മലയാളം": {
-        "title": "⚡ ScamCheck AI",
-        "subtitle": "ഇന്റേൺഷിപ്പ്, ജോലി ഓഫറുകൾ എന്നിവ പരിശോധിക്കുന്ന പ്ലാറ്റ്ഫോം",
-        "select": "🌐 നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക",
-        "continue": "🚀 തുടരുക",
-    },
-    "ಕನ್ನಡ": {
-        "title": "⚡ ScamCheck AI",
-        "subtitle": "ಇಂಟರ್ನ್‌ಶಿಪ್ ಮತ್ತು ಉದ್ಯೋಗ ಆಫರ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸುವ ವೇದಿಕೆ",
-        "select": "🌐 ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
-        "continue": "🚀 ಮುಂದುವರಿಸಿ",
-    },
-    "తెలుగు": {
-        "title": "⚡ ScamCheck AI",
-        "subtitle": "ఇంటర్న్‌షిప్ మరియు ఉద్యోగ ఆఫర్లను ధృవీకరించే ప్లాట్‌ఫారమ్",
-        "select": "🌐 మీ భాషను ఎంచుకోండి",
-        "continue": "🚀 కొనసాగించండి",
-    },
+        "sec_dashboard": "📈 பாதுகாப்பு டாஷ்போர்டு",
+        "scan_history_tab": "🧾 ஸ்கேன் வரலாறு",
+        "cyber_shield_title": "🛡️ சைபர்ஷீல்ட் பாதுகாப்பு மையம்",
+        "cyber_shield_desc": "சந்தேகத்திற்குரிய குறுஞ்செய்திகள், உரலிகள் மற்றும் தொடர்புகளை சரிபார்க்க இந்த டாஷ்போர்டைப் பயன்படுத்தவும்.",
+        "total_scans": "மொத்த ஸ்கேன்கள்",
+        "high_risk_scans": "அதிக ஆபத்துள்ள ஸ்கேன்கள்",
+        "avg_risk": "சராசரி ஆபத்து",
+        "quick_inspector_title": "🔎 உடனடி செய்தி பரிசோதனையாளர்",
+        "quick_inspector_label": "உடனடி உள்ளூர் சோதனைகளுக்கு சந்தேகத்திற்கிடமான செய்தியை ஒட்டவும்",
+        "run_quick_check": "⚡ உடனடி பாதுகாப்பு சோதனை செய்க",
+        "local_risk_score": "உள்ளூர் ஆபத்து மதிப்பெண்",
+        "no_red_flags": "🟢 எந்த பெரிய ஆபத்து எச்சரிக்கையும் கண்டறியப்படவில்லை.",
+        "red_flags": "🚩 ஆபத்து எச்சரிக்கைகள்",
+        "extracted_details": "🌐 பிரித்தெடுக்கப்பட்ட இணைப்புகள் / தொடர்பு விவரங்கள்",
+        "urls": "இணைப்புகள் (URLs):",
+        "emails": "மின்னஞ்சல்கள்:",
+        "phones": "தொலைபேசி எண்கள்:",
+        "safety_actions_title": "🛡️ பரிந்துரைக்கப்பட்ட பாதுகாப்பு நடவடிக்கைகள்",
+        "safety_actions": [
+            "பதிவுக் கட்டணம், முன்பணம், பயிற்சி அல்லது செயலாக்கக் கட்டணங்களைச் செலுத்த வேண்டாம்.",
+            "நிறுவனத்தின் அதிகாரப்பூர்வ இணையதளத்தில் காலியிடத்தை சரிபார்க்கவும்.",
+            "OTP, UPI PIN, CVV அல்லது வங்கி விவரங்களைப் பகிர வேண்டாம்.",
+            "அனுப்புநரின் மின்னஞ்சல் முகவரியை கவனமாகச் சரிபார்க்கவும்.",
+            "தெரியாத குறுகிய இணைப்புகள் அல்லது இணைப்புகளைத் திறப்பதைத் தவிர்க்கவும்.",
+            "நிறுவனத்தை நேரடி அதிகாரப்பூர்வ எண் மூலம் தொடர்பு கொள்ளவும்."
+        ],
+        "prev_scan_title": "🧾 முந்தைய ஸ்கேன் முடிவுகள்",
+        "no_scans": "இந்த அமர்வில் இன்னும் ஸ்கேன்கள் பதிவு செய்யப்படவில்லை.",
+        "clear_history": "🗑️ வரலாற்றை அழி",
+        "verify_tab": "🚀 உரையைச் சரிபார்",
+        "logo_tab": "🔍 சின்னத்தின் நம்பிக்கைத் தன்மையைச் சரிபார்",
+        "presets_title": "⚡ மாதிரி சோதனைகள்",
+        "preset_fake": "🚨 போலி HR மோசடி",
+        "preset_telegram": "🟡 டெலிகிராம் சலுகை",
+        "preset_legit": "✅ உண்மையான வேலை",
+        "text_area_label": "சலுகை / மின்னஞ்சல் / செய்தியை இங்கே ஒட்டவும்",
+        "scan_btn": "🔥 வாய்ப்பை ஸ்கேன் செய்க",
+        "threat_report": "📊 அச்சுறுத்தல் பகுப்பாய்வு அறிக்கை",
+        "risk_score_card": "ஆபத்து மதிப்பெண்",
+        "threat_status": "அச்சுறுத்தல் நிலை",
+        "high_risk_badge": "🔴 அதிக ஆபத்து கண்டறியப்பட்டது",
+        "med_risk_badge": "🟡 நடுத்தர ஆபத்து / எச்சரிக்கை தேவை",
+        "low_risk_badge": "🟢 குறைந்த ஆபத்து / சரிபார்க்கப்பட்டது",
+        "verdict": "முடிவு:",
+        "identified_indicators": "🚩 கண்டறியப்பட்ட ஆபத்து குறிகாட்டிகள்",
+        "logo_upload_label": "நிறுவனத்தின் சின்னத்தைப் பதிவேற்றவும்",
+        "company_name_label": "நிறுவனத்தின் பெயர்",
+        "verify_logo_btn": "👁️ சின்னத்தைச் சரிபார்",
+        "visual_report": "காட்சி பகுப்பாய்வு அறிக்கை",
+        "auth_index": "நம்பகத்தன்மை குறியீடு:",
+        "authentic_badge": "🟢 உண்மையான நிறுவனத்தின் படம்",
+        "fake_badge": "🔴 போலி / மாற்றியமைக்கப்பட்ட படம்",
+        "flaws_title": "🔍 கண்டறியப்பட்ட காட்சி தவறுகள்"
+    }
 }
+
+# Add default fallbacks for Hindi, Telugu, Kannada, Malayalam if selected
+default_lang = LANGUAGES["English"]
+for l_key in ["हिन्दी", "മലയാളം", "ಕನ್ನಡ", "తెలుగు"]:
+    if l_key not in LANGUAGES:
+        LANGUAGES[l_key] = default_lang
 
 if "language_selected" not in st.session_state:
     st.session_state["language_selected"] = False
@@ -197,18 +285,10 @@ if not st.session_state["language_selected"]:
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
     }
-    .language-sub {
-        color: #94a3b8;
-        font-size: 1.05rem;
-        margin-bottom: 28px;
-    }
     </style>
-    """, unsafe_allow_html=True)
-
-    st.markdown("""
     <div class="language-screen">
         <div class="language-logo">🛡️ ScamCheck AI</div>
-        <div class="language-sub">
+        <div style="color: #94a3b8; font-size: 1.05rem; margin-bottom: 28px;">
             Choose your preferred language before entering the application
         </div>
     </div>
@@ -228,9 +308,9 @@ if not st.session_state["language_selected"]:
     st.stop()
 
 selected_language = st.session_state.get("selected_language", "English")
-UI = LANGUAGES[selected_language]
+UI = LANGUAGES.get(selected_language, LANGUAGES["English"])
 
-# Language can be changed later from the sidebar
+# Sidebar language switcher
 with st.sidebar:
     st.markdown("### 🌐 Language")
     new_language = st.selectbox(
@@ -259,9 +339,9 @@ if not api_key:
         st.subheader("🔑 Security Key")
         api_key = st.text_input("Enter Gemini API Key", type="password")
 
-# =========================================================
-# EXTRA FEATURES & HEURISTICS
-# =========================================================
+# ---------------------------------------------------------
+# LOGIC & HEURISTICS
+# ---------------------------------------------------------
 
 if "scan_history" not in st.session_state:
     st.session_state["scan_history"] = []
@@ -276,7 +356,6 @@ def save_scan(text, score, level, indicators, recommendation):
     })
     st.session_state["scan_history"] = st.session_state["scan_history"][:20]
 
-# Advanced Local Heuristic Engine
 def advanced_heuristic_check(text):
     t = text.lower()
     flags = []
@@ -292,15 +371,15 @@ def advanced_heuristic_check(text):
         (r'\b(guaranteed job|100% job|guaranteed income|easy money)\b',
          15, "🎯 Guaranteed Job Claim: Promises certainty or unusually easy income."),
         (r'\b(aadhaar|pan card|passport|bank details|otp|cvv|upi pin)\b',
-         25, "🔐 Sensitive ID/Data Request: Asks for identity or financial credentials via unverified channels."),
+         25, "🔐 Sensitive ID/Data Request: Asks for identity credentials via unverified channels."),
         (r'\b(bit\.ly|tinyurl|t\.co|goo\.gl)\b',
          10, "🔗 Shortened URL: Link destination is obfuscated."),
         (r'\b(\d+\s*hours?|today|urgent|limited time|act now|immediately)\b',
          15, "⏰ Extreme Urgency: Creates artificial pressure to bypass verification."),
         (r'\b(crypto|bitcoin|usdt|investment required)\b',
-         18, "🪙 Financial Scheme Indicator: Links employment with cryptocurrency or investment."),
+         18, "🪙 Financial Scheme Indicator: Links employment with investment."),
         (r'@gmail\.com|@yahoo\.com|@hotmail\.com|@outlook\.com',
-         15, "📧 Public Email Domain: Official recruitment uses generic webmail instead of a company domain.")
+         15, "📧 Public Email Domain: Recruitment uses generic webmail instead of company domain.")
     ]
 
     for pattern, points, message in rules:
@@ -308,7 +387,6 @@ def advanced_heuristic_check(text):
             flags.append(message)
             score += points
 
-    # Lower threshold to flag high stipends (e.g. ₹30,000+ per month for work-from-home internships)
     money_matches = re.findall(r'(?:₹|rs\.?|inr|\$)\s?([\d,]+)', t, flags=re.I)
     for amount in money_matches:
         try:
@@ -328,28 +406,19 @@ def extract_links_and_contacts(text):
     phones = re.findall(r'(?<!\d)(?:\+91[-\s]?)?[6-9]\d{9}(?!\d)', text)
     return urls, emails, phones
 
-def show_safety_checklist(score):
-    st.markdown("### 🛡️ Recommended Safety Actions")
-    actions = [
-        "Do not pay registration, security, training, equipment, or processing fees.",
-        "Verify the vacancy on the company's official careers website.",
-        "Do not share OTP, UPI PIN, CVV, passwords, or banking credentials.",
-        "Check the sender's email domain carefully for impersonation.",
-        "Avoid opening unknown shortened links or attachments.",
-        "Contact the company using a phone number or email obtained independently."
-    ]
-    for action in actions:
+def show_safety_checklist():
+    st.markdown(f"### {UI['safety_actions_title']}")
+    for action in UI["safety_actions"]:
         st.markdown(f"- {action}")
 
-# Extra Dashboard Tabs
-tab_dashboard, tab_history = st.tabs(["📈 Security Dashboard", "🧾 Scan History"])
+# Primary App Tabs
+tab_dashboard, tab_history = st.tabs([UI["sec_dashboard"], UI["scan_history_tab"]])
 
 with tab_dashboard:
-    st.markdown("""
+    st.markdown(f"""
     <div class="glass-card">
-        <h2>🛡️ CyberShield Security Center</h2>
-        <p>Use this dashboard to inspect suspicious recruitment messages,
-        URLs, contact information, and previous scan results.</p>
+        <h2>{UI["cyber_shield_title"]}</h2>
+        <p>{UI["cyber_shield_desc"]}</p>
     </div>
     """, unsafe_allow_html=True)
 
@@ -357,59 +426,59 @@ with tab_dashboard:
     history = st.session_state.get("scan_history", [])
 
     with h1:
-        st.metric("Total Scans", len(history))
+        st.metric(UI["total_scans"], len(history))
     with h2:
         high_count = sum(1 for x in history if x["level"] == "High")
-        st.metric("High Risk Scans", high_count)
+        st.metric(UI["high_risk_scans"], high_count)
     with h3:
         avg_score = (
             round(sum(x["score"] for x in history) / len(history), 1)
             if history else 0
         )
-        st.metric("Average Risk", avg_score)
+        st.metric(UI["avg_risk"], avg_score)
 
-    st.markdown("### 🔎 Quick Message Inspector")
+    st.markdown(f"### {UI['quick_inspector_title']}")
     quick_text = st.text_area(
-        "Paste a suspicious message for instant local checks",
+        UI["quick_inspector_label"],
         height=150,
         key="quick_inspector"
     )
 
-    if st.button("⚡ Run Quick Security Check"):
+    if st.button(UI["run_quick_check"]):
         if not quick_text.strip():
             st.warning("Enter a message first.")
         else:
             extra_score, extra_flags = advanced_heuristic_check(quick_text)
             urls, emails, phones = extract_links_and_contacts(quick_text)
 
-            st.metric("Local Risk Score", f"{extra_score}/100")
+            st.metric(UI["local_risk_score"], f"{extra_score}/100")
 
             if extra_score >= 60:
-                st.error("🔴 High-risk indicators detected.")
+                st.error(UI["high_risk_badge"])
             elif extra_score >= 30:
-                st.warning("🟡 Suspicious indicators detected.")
+                st.warning(UI["med_risk_badge"])
             else:
-                st.success("🟢 No major local red flags detected.")
+                st.success(UI["no_red_flags"])
 
             if extra_flags:
-                st.markdown("#### 🚩 Red Flags")
+                st.markdown(f"#### {UI['red_flags']}")
                 for flag in extra_flags:
                     st.write(flag)
 
-            with st.expander("🌐 Extracted Links / Contact Details"):
-                st.write("**URLs:**", urls if urls else "None found")
-                st.write("**Emails:**", emails if emails else "None found")
-                st.write("**Phone numbers:**", phones if phones else "None found")
+            with st.expander(UI["extracted_details"]):
+                st.write(f"**{UI['urls']}**", urls if urls else "None")
+                st.write(f"**{UI['emails']}**", emails if emails else "None")
+                st.write(f"**{UI['phones']}**", phones if phones else "None")
 
-            show_safety_checklist(extra_score)
+            show_safety_checklist()
 
 with tab_history:
-    st.markdown("### 🧾 Previous Scan Results")
+    st.markdown(f"### {UI['prev_scan_title']}")
 
     if not history:
-        st.info("No scans recorded in this session yet.")
+        st.info(UI["no_scans"])
     else:
-        for i, item in enumerate(history):
+        for item in history:
             with st.expander(
                 f"{'🔴' if item['level']=='High' else '🟡' if item['level']=='Medium' else '🟢'} "
                 f"{item['level']} Risk — Score {item['score']}/100"
@@ -418,64 +487,41 @@ with tab_history:
                 st.write("**Indicators:**", item["indicators"])
                 st.write("**Recommendation:**", item["recommendation"])
 
-    if st.button("🗑️ Clear Scan History"):
+    if st.button(UI["clear_history"]):
         st.session_state["scan_history"] = []
         st.rerun()
 
-if st.session_state.get("scan_history"):
-    import csv
-    import io
+# Verification Tabs
+tab_offer, tab_brand = st.tabs([UI["verify_tab"], UI["logo_tab"]])
 
-    output = io.StringIO()
-    writer = csv.DictWriter(
-        output,
-        fieldnames=["text", "score", "level", "indicators", "recommendation"]
-    )
-    writer.writeheader()
-    writer.writerows(st.session_state["scan_history"])
-
-    st.sidebar.download_button(
-        "⬇️ Download Scan History CSV",
-        data=output.getvalue(),
-        file_name="scamcheck_scan_history.csv",
-        mime="text/csv"
-    )
-
-# Primary App Tabs
-tab_offer, tab_brand = st.tabs(["🚀 Verify Text / Offer", "🔍 Inspect Logo Authenticity"])
-
-# ---------------------------------------------------------
-# TAB 1: OFFER ANALYZER (WITH FALLBACK FOR 429 ERRORS)
-# ---------------------------------------------------------
 with tab_offer:
     col_input, col_presets = st.columns([2, 1])
 
     with col_presets:
-        st.markdown('<div class="glass-card"><b>⚡ Quick Test Presets</b><br><br>', unsafe_allow_html=True)
-        if st.button("🚨 Load Fake HR Scam"):
+        st.markdown(f'<div class="glass-card"><b>{UI["presets_title"]}</b><br><br>', unsafe_allow_html=True)
+        if st.button(UI["preset_fake"]):
             st.session_state["text_input"] = "Congratulations! You are selected for HR Assistant at Amazon. Salary 50,000 INR/month. Work 2 hours daily from home. Pay 1,500 INR registration fee to process laptop kit. Contact HR on WhatsApp: 9876543210."
-        if st.button("🟡 Load Telegram Offer"):
+        if st.button(UI["preset_telegram"]):
             st.session_state["text_input"] = "Urgent Hiring: Data Entry Operator needed. Pay: $200/day. No interview needed. Contact manager directly on Telegram @Jobs_HR_Fast."
-        if st.button("✅ Load Legit Opportunity"):
+        if st.button(UI["preset_legit"]):
             st.session_state["text_input"] = "We are hiring a Software Engineer Intern at TechCorp. Requirements: Python, React. Apply through our official portal: https://techcorp.com/careers/intern-2026."
         st.markdown('</div>', unsafe_allow_html=True)
 
     with col_input:
         user_text = st.text_area(
-            "Paste Offer / Email / Message Here", 
+            UI["text_area_label"], 
             value=st.session_state.get("text_input", ""), 
-            height=180, 
-            placeholder="Paste raw email header, WhatsApp message, or job text..."
+            height=180
         )
-        analyze_btn = st.button("🔥 Scan Opportunity", type="primary")
+        analyze_btn = st.button(UI["scan_btn"], type="primary")
 
     if analyze_btn:
         if not api_key:
-            st.error("Please configure your Gemini API Key in the sidebar or Secrets.")
+            st.error("Please configure your Gemini API Key in the sidebar.")
         elif not user_text.strip():
             st.warning("Please paste offer details first.")
         else:
-            with st.spinner("Analyzing opportunity..."):
+            with st.spinner("Analyzing..."):
                 local_score, local_flags = advanced_heuristic_check(user_text)
                 
                 try:
@@ -501,30 +547,29 @@ with tab_offer:
 
                 except Exception as e:
                     if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                        st.warning("⚠️ Gemini API quota limit reached. Switched to local rule-based analysis engine.")
                         level = "High" if local_score >= 60 else "Medium" if local_score >= 30 else "Low"
                         data = {
                             "risk_score": local_score,
                             "risk_level": level,
                             "warning_indicators": local_flags,
-                            "recommendation": "Analysis compiled by offline engine due to API quota limits. Verify company credentials manually."
+                            "recommendation": "Analysis compiled by offline heuristic engine."
                         }
                     else:
-                        st.error(f"Analysis error: {e}")
+                        st.error(f"Error: {e}")
                         st.stop()
 
                 score = data.get("risk_score", 0)
                 level = data.get("risk_level", "Unknown")
 
                 st.markdown("---")
-                st.markdown("### 📊 Threat Intelligence Report")
+                st.markdown(f"### {UI['threat_report']}")
 
                 m1, m2 = st.columns([1, 2])
                 
                 with m1:
                     st.markdown(f"""
                     <div class="glass-card" style="text-align: center;">
-                        <span style="font-size: 0.9rem; color: #94a3b8;">RISK SCORE</span>
+                        <span style="font-size: 0.9rem; color: #94a3b8;">{UI["risk_score_card"]}</span>
                         <h1 style="font-size: 3.5rem; margin: 0; color: #c084fc;">{score}</h1>
                         <span style="font-size: 0.8rem; color: #64748b;">out of 100</span>
                     </div>
@@ -532,18 +577,18 @@ with tab_offer:
                     st.progress(score / 100)
 
                 with m2:
-                    st.markdown("<div class='glass-card'><b>Threat Level Status</b><br><br>", unsafe_allow_html=True)
+                    st.markdown(f"<div class='glass-card'><b>{UI['threat_status']}</b><br><br>", unsafe_allow_html=True)
                     if level == "High":
-                        st.markdown('<span class="badge-danger">🔴 HIGH RISK THREAT DETECTED</span>', unsafe_allow_html=True)
+                        st.markdown(f'<span class="badge-danger">{UI["high_risk_badge"]}</span>', unsafe_allow_html=True)
                     elif level == "Medium":
-                        st.markdown('<span class="badge-warning">🟡 MEDIUM RISK / EXTREME CAUTION</span>', unsafe_allow_html=True)
+                        st.markdown(f'<span class="badge-warning">{UI["med_risk_badge"]}</span>', unsafe_allow_html=True)
                     else:
-                        st.markdown('<span class="badge-success">🟢 LOW RISK / VERIFIED PROFILE</span>', unsafe_allow_html=True)
+                        st.markdown(f'<span class="badge-success">{UI["low_risk_badge"]}</span>', unsafe_allow_html=True)
                     
-                    st.markdown(f"<br><br><b>Verdict:</b> {data.get('recommendation', '')}", unsafe_allow_html=True)
+                    st.markdown(f"<br><br><b>{UI['verdict']}</b> {data.get('recommendation', '')}", unsafe_allow_html=True)
                     st.markdown("</div>", unsafe_allow_html=True)
 
-                st.markdown("<div class='glass-card'><b>🚩 Identified Risk Indicators</b><br><br>", unsafe_allow_html=True)
+                st.markdown(f"<div class='glass-card'><b>{UI['identified_indicators']}</b><br><br>", unsafe_allow_html=True)
                 all_indicators = list(set(local_flags + data.get("warning_indicators", [])))
                 for ind in all_indicators:
                     st.markdown(f"- {ind}")
@@ -551,16 +596,13 @@ with tab_offer:
 
                 save_scan(user_text, score, level, all_indicators, data.get('recommendation', ''))
 
-# ---------------------------------------------------------
-# TAB 2: BRAND LOGO INSPECTION
-# ---------------------------------------------------------
 with tab_brand:
     col_upload, col_preview = st.columns([1, 1])
 
     with col_upload:
-        uploaded_file = st.file_uploader("Upload Brand Logo or Offer Header", type=["png", "jpg", "jpeg"])
-        company_name = st.text_input("Claimed Company Name", placeholder="e.g. Google, Amazon, Microsoft")
-        verify_logo_btn = st.button("👁️ Verify Brand Authenticity", type="primary")
+        uploaded_file = st.file_uploader(UI["logo_upload_label"], type=["png", "jpg", "jpeg"])
+        company_name = st.text_input(UI["company_name_label"])
+        verify_logo_btn = st.button(UI["verify_logo_btn"], type="primary")
 
     if verify_logo_btn:
         if not api_key:
@@ -572,12 +614,12 @@ with tab_brand:
                 try:
                     img = Image.open(uploaded_file)
                     with col_preview:
-                        st.image(img, caption="Uploaded File Preview", width=220)
+                        st.image(img, caption="Preview", width=220)
 
                     client = genai.Client(api_key=api_key)
                     logo_prompt = f"""
                     Inspect this image claiming to be the logo of "{company_name}".
-                    Look for pixelation, edited text, stretched artifacts, or missing brand features.
+                    Look for pixelation, edited text, or missing brand features.
 
                     Return ONLY a JSON object:
                     {{
@@ -598,24 +640,21 @@ with tab_brand:
                     st.markdown("---")
                     st.markdown(f"""
                     <div class="glass-card">
-                        <h3>Visual Analysis Report</h3>
-                        <h2 style="color: #38bdf8;">Authenticity Index: {auth_score}/100</h2>
+                        <h3>{UI['visual_report']}</h3>
+                        <h2 style="color: #38bdf8;">{UI['auth_index']} {auth_score}/100</h2>
                     </div>
                     """, unsafe_allow_html=True)
 
                     if auth_score >= 70:
-                        st.markdown('<span class="badge-success">🟢 AUTHENTIC BRAND IMAGE</span>', unsafe_allow_html=True)
+                        st.markdown(f'<span class="badge-success">{UI["authentic_badge"]}</span>', unsafe_allow_html=True)
                     else:
-                        st.markdown('<span class="badge-danger">🔴 HIGH CHANCE OF FRAUDULENT / ALTERED LOGO</span>', unsafe_allow_html=True)
+                        st.markdown(f'<span class="badge-danger">{UI["fake_badge"]}</span>', unsafe_allow_html=True)
 
-                    st.markdown("<br><div class='glass-card'><b>🔍 Image Flaws Detected</b><br>", unsafe_allow_html=True)
+                    st.markdown(f"<br><div class='glass-card'><b>{UI['flaws_title']}</b><br>", unsafe_allow_html=True)
                     for flaw in data.get("visual_flaws", []):
                         st.markdown(f"- {flaw}")
                     st.write(data.get("summary", ""))
                     st.markdown("</div>", unsafe_allow_html=True)
 
                 except Exception as e:
-                    if "429" in str(e) or "RESOURCE_EXHAUSTED" in str(e):
-                        st.error("⚠️ API quota exceeded. Logo inspection requires active Gemini vision access.")
-                    else:
-                        st.error(f"Image analysis error: {e}")
+                    st.error(f"Error: {e}")
