@@ -133,8 +133,6 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-
-# ---------------------------------------------------------
 # LANGUAGE SELECTION — FIRST SCREEN
 # ---------------------------------------------------------
 LANGUAGES = {
@@ -244,10 +242,10 @@ with st.sidebar:
         st.session_state["selected_language"] = new_language
         st.rerun()
 
-
-# # HERO BANNER
 # ---------------------------------------------------------
-st.markdown("""
+# HERO BANNER - FIXED TITLE INCLUSION USING F-STRING
+# ---------------------------------------------------------
+st.markdown(f"""
 <div class="hero-container">
     <div class="hero-content">
         <div class="hero-title">{UI["title"]}</div>
@@ -274,8 +272,6 @@ def run_heuristic_check(text):
     if re.search(r'\b(earn \$?\d+00|50000 per month for 2 hours)\b', t):
         flags.append("💸 Irrealistic Salary: Compensation is suspiciously inflated.")
     return flags
-
-
 
 # =========================================================
 # EXTRA FEATURES
@@ -463,7 +459,6 @@ if st.session_state.get("scan_history"):
         mime="text/csv"
     )
 
-
 # App Tabs
 tab_offer, tab_brand = st.tabs(["🚀 Verify Text / Offer", "🔍 Inspect Logo Authenticity"])
 
@@ -559,6 +554,9 @@ with tab_offer:
                     for ind in all_indicators:
                         st.markdown(f"- {ind}")
                     st.markdown("</div>", unsafe_allow_html=True)
+
+                    # Record scan in session state
+                    save_scan(user_text, score, level, all_indicators, data.get('recommendation', ''))
 
                 except Exception as e:
                     st.error(f"Analysis error: {e}")
