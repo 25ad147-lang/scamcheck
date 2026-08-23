@@ -163,6 +163,195 @@ def run_heuristic_check(text):
         flags.append("💸 Irrealistic Salary: Compensation is suspiciously inflated.")
     return flags
 
+
+
+# =========================================================
+# EXTRA FEATURES
+# =========================================================
+
+# ---------- Session History ----------
+if "scan_history" not in st.session_state:
+    st.session_state["scan_history"] = []
+
+def save_scan(text, score, level, indicators, recommendation):
+    st.session_state["scan_history"].insert(0, {
+        "text": text[:120],
+        "score": int(score),
+        "level": level,
+        "indicators": len(indicators),
+        "recommendation": recommendation
+    })
+    st.session_state["scan_history"] = st.session_state["scan_history"][:20]
+
+# ---------- Stronger Local Heuristic Engine ----------
+def advanced_heuristic_check(text):
+    t = text.lower()
+    flags = []
+    score = 0
+
+    rules = [
+        (r'\b(registration fee|security deposit|processing fee|laptop fee|pay for kit|joining fee)\b',
+         25, "💳 Payment Demand: Requests money before employment/onboarding."),
+        (r'\b(telegram|whatsapp only|contact hr via whatsapp|signal)\b',
+         15, "📱 Unverified Communication: Uses informal-only recruitment channels."),
+        (r'\b(no interview|without interview|selected immediately|instant selection)\b',
+         20, "⚠️ No Screening: Claims selection without a normal hiring process."),
+        (r'\b(guaranteed job|100% job|guaranteed income|easy money)\b',
+         15, "🎯 Guaranteed Job Claim: Promises certainty or unusually easy income."),
+        (r'\b(otp|one time password|upi pin|cvv|card number|bank password)\b',
+         35, "🔐 Sensitive Data Request: Requests credentials or financial security information."),
+        (r'\b(bit\.ly|tinyurl|t\.co|goo\.gl)\b',
+         10, "🔗 Shortened URL: Destination is hidden and should be verified."),
+        (r'\b(urgent|act now|limited time|today only|immediately)\b',
+         8, "⏰ Pressure Tactic: Creates urgency to prevent careful verification."),
+        (r'\b(crypto|bitcoin|usdt|investment required)\b',
+         18, "🪙 Financial Scheme Indicator: Links employment with investment/crypto."),
+    ]
+
+    for pattern, points, message in rules:
+        if re.search(pattern, t):
+            flags.append(message)
+            score += points
+
+    # Detect unusually high salary claims.
+    money_matches = re.findall(
+        r'(?:₹|rs\.?|inr|\$)\s?([\d,]+)', t, flags=re.I
+    )
+    for amount in money_matches:
+        try:
+            value = int(amount.replace(",", ""))
+            if value >= 100000:
+                flags.append("💰 Salary Anomaly: Very high compensation claim should be independently verified.")
+                score += 10
+                break
+        except ValueError:
+            pass
+
+    return min(score, 95), flags
+
+# ---------- URL / Contact Extraction ----------
+def extract_links_and_contacts(text):
+    urls = re.findall(r'https?://[^\s<>"\']+', text)
+    emails = re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+', text)
+    phones = re.findall(r'(?<!\d)(?:\+91[-\s]?)?[6-9]\d{9}(?!\d)', text)
+    return urls, emails, phones
+
+# ---------- Safety Checklist ----------
+def show_safety_checklist(score):
+    st.markdown("### 🛡️ Recommended Safety Actions")
+    actions = [
+        "Do not pay registration, security, training, equipment, or processing fees.",
+        "Verify the vacancy on the company's official careers website.",
+        "Do not share OTP, UPI PIN, CVV, passwords, or banking credentials.",
+        "Check the sender's email domain carefully for impersonation.",
+        "Avoid opening unknown shortened links or attachments.",
+        "Contact the company using a phone number or email obtained independently."
+    ]
+    for action in actions:
+        st.markdown(f"- {action}")
+
+# ---------- Extra Dashboard ----------
+tab_dashboard, tab_history = st.tabs(["📈 Security Dashboard", "🧾 Scan History"])
+
+with tab_dashboard:
+    st.markdown("""
+    <div class="glass-card">
+        <h2>🛡️ CyberShield Security Center</h2>
+        <p>Use this dashboard to inspect suspicious recruitment messages,
+        URLs, contact information, and previous scan results.</p>
+    </div>
+    """, unsafe_allow_html=True)
+
+    h1, h2, h3 = st.columns(3)
+    history = st.session_state.get("scan_history", [])
+
+    with h1:
+        st.metric("Total Scans", len(history))
+    with h2:
+        high_count = sum(1 for x in history if x["level"] == "High")
+        st.metric("High Risk Scans", high_count)
+    with h3:
+        avg_score = (
+            round(sum(x["score"] for x in history) / len(history), 1)
+            if history else 0
+        )
+        st.metric("Average Risk", avg_score)
+
+    st.markdown("### 🔎 Quick Message Inspector")
+    quick_text = st.text_area(
+        "Paste a suspicious message for instant local checks",
+        height=150,
+        key="quick_inspector"
+    )
+
+    if st.button("⚡ Run Quick Security Check"):
+        if not quick_text.strip():
+            st.warning("Enter a message first.")
+        else:
+            extra_score, extra_flags = advanced_heuristic_check(quick_text)
+            urls, emails, phones = extract_links_and_contacts(quick_text)
+
+            st.metric("Local Risk Score", f"{extra_score}/100")
+
+            if extra_score >= 60:
+                st.error("🔴 High-risk indicators detected.")
+            elif extra_score >= 30:
+                st.warning("🟡 Suspicious indicators detected.")
+            else:
+                st.success("🟢 No major local red flags detected.")
+
+            if extra_flags:
+                st.markdown("#### 🚩 Red Flags")
+                for flag in extra_flags:
+                    st.write(flag)
+
+            with st.expander("🌐 Extracted Links / Contact Details"):
+                st.write("**URLs:**", urls if urls else "None found")
+                st.write("**Emails:**", emails if emails else "None found")
+                st.write("**Phone numbers:**", phones if phones else "None found")
+
+            show_safety_checklist(extra_score)
+
+with tab_history:
+    st.markdown("### 🧾 Previous Scan Results")
+
+    if not history:
+        st.info("No scans recorded in this session yet.")
+    else:
+        for i, item in enumerate(history):
+            with st.expander(
+                f"{'🔴' if item['level']=='High' else '🟡' if item['level']=='Medium' else '🟢'} "
+                f"{item['level']} Risk — Score {item['score']}/100"
+            ):
+                st.write("**Message:**", item["text"])
+                st.write("**Indicators:**", item["indicators"])
+                st.write("**Recommendation:**", item["recommendation"])
+
+    if st.button("🗑️ Clear Scan History"):
+        st.session_state["scan_history"] = []
+        st.rerun()
+
+# ---------- Downloadable Security Report ----------
+if st.session_state.get("scan_history"):
+    import csv
+    import io
+
+    output = io.StringIO()
+    writer = csv.DictWriter(
+        output,
+        fieldnames=["text", "score", "level", "indicators", "recommendation"]
+    )
+    writer.writeheader()
+    writer.writerows(st.session_state["scan_history"])
+
+    st.sidebar.download_button(
+        "⬇️ Download Scan History CSV",
+        data=output.getvalue(),
+        file_name="scamcheck_scan_history.csv",
+        mime="text/csv"
+    )
+
+
 # App Tabs
 tab_offer, tab_brand = st.tabs(["🚀 Verify Text / Offer", "🔍 Inspect Logo Authenticity"])
 
