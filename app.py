@@ -133,13 +133,125 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ---------------------------------------------------------
-# HERO BANNER
+
+# ---------------------------------------------------------
+# LANGUAGE SELECTION — FIRST SCREEN
+# ---------------------------------------------------------
+LANGUAGES = {
+    "English": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "Next-Generation Verification Platform for Internship & Job Offers",
+        "select": "🌐 Select your language",
+        "continue": "🚀 Continue",
+    },
+    "தமிழ்": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "இன்டர்ன்ஷிப் மற்றும் வேலை வாய்ப்புகளை சரிபார்க்கும் தளம்",
+        "select": "🌐 உங்கள் மொழியைத் தேர்ந்தெடுக்கவும்",
+        "continue": "🚀 தொடரவும்",
+    },
+    "हिन्दी": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "इंटर्नशिप और नौकरी के प्रस्तावों की जाँच करने वाला प्लेटफ़ॉर्म",
+        "select": "🌐 अपनी भाषा चुनें",
+        "continue": "🚀 जारी रखें",
+    },
+    "മലയാളം": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ഇന്റേൺഷിപ്പ്, ജോലി ഓഫറുകൾ എന്നിവ പരിശോധിക്കുന്ന പ്ലാറ്റ്ഫോം",
+        "select": "🌐 നിങ്ങളുടെ ഭാഷ തിരഞ്ഞെടുക്കുക",
+        "continue": "🚀 തുടരുക",
+    },
+    "ಕನ್ನಡ": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ಇಂಟರ್ನ್‌ಶಿಪ್ ಮತ್ತು ಉದ್ಯೋಗ ಆಫರ್‌ಗಳನ್ನು ಪರಿಶೀಲಿಸುವ ವೇದಿಕೆ",
+        "select": "🌐 ನಿಮ್ಮ ಭಾಷೆಯನ್ನು ಆಯ್ಕೆಮಾಡಿ",
+        "continue": "🚀 ಮುಂದುವರಿಸಿ",
+    },
+    "తెలుగు": {
+        "title": "⚡ ScamCheck AI",
+        "subtitle": "ఇంటర్న్‌షిప్ మరియు ఉద్యోగ ఆఫర్లను ధృవీకరించే ప్లాట్‌ఫారమ్",
+        "select": "🌐 మీ భాషను ఎంచుకోండి",
+        "continue": "🚀 కొనసాగించండి",
+    },
+}
+
+if "language_selected" not in st.session_state:
+    st.session_state["language_selected"] = False
+
+if not st.session_state["language_selected"]:
+    st.markdown("""
+    <style>
+    .language-screen {
+        max-width: 760px;
+        margin: 80px auto;
+        padding: 45px;
+        text-align: center;
+        background: rgba(30, 41, 59, 0.85);
+        border: 1px solid rgba(168,85,247,.35);
+        border-radius: 24px;
+        box-shadow: 0 15px 50px rgba(0,0,0,.4);
+    }
+    .language-logo {
+        font-size: 3.2rem;
+        font-weight: 800;
+        background: linear-gradient(90deg,#38bdf8,#818cf8,#c084fc);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+    .language-sub {
+        color: #94a3b8;
+        font-size: 1.05rem;
+        margin-bottom: 28px;
+    }
+    </style>
+    """, unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="language-screen">
+        <div class="language-logo">🛡️ ScamCheck AI</div>
+        <div class="language-sub">
+            Choose your preferred language before entering the application
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
+
+    selected_language = st.selectbox(
+        "🌐 Select your language / மொழியைத் தேர்ந்தெடுக்கவும்",
+        list(LANGUAGES.keys()),
+        index=0
+    )
+
+    if st.button(LANGUAGES[selected_language]["continue"], type="primary"):
+        st.session_state["selected_language"] = selected_language
+        st.session_state["language_selected"] = True
+        st.rerun()
+
+    st.stop()
+
+selected_language = st.session_state.get("selected_language", "English")
+UI = LANGUAGES[selected_language]
+
+# Language can be changed later from the sidebar.
+with st.sidebar:
+    st.markdown("### 🌐 Language")
+    new_language = st.selectbox(
+        "Change language",
+        list(LANGUAGES.keys()),
+        index=list(LANGUAGES.keys()).index(selected_language)
+    )
+    if new_language != selected_language:
+        st.session_state["selected_language"] = new_language
+        st.rerun()
+
+
+# # HERO BANNER
 # ---------------------------------------------------------
 st.markdown("""
 <div class="hero-container">
     <div class="hero-content">
-        <div class="hero-title">⚡ ScamCheck AI</div>
-        <div class="hero-subtitle">Next-Generation Verification Platform for Internship & Job Offers</div>
+        <div class="hero-title">{UI["title"]}</div>
+        <div class="hero-subtitle">{UI["subtitle"]}</div>
     </div>
 </div>
 """, unsafe_allow_html=True)
